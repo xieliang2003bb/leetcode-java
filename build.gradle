@@ -1,0 +1,80 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+eclipse {
+  classpath {
+   downloadSources = true
+   downloadJavadoc = false
+  }
+}
+
+group = 'me.iamzsx'
+archivesBaseName = 'leetcode-java'
+version = '1.0'
+description = 'java solution for leetcode'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'junit:junit:4.10'
+}
+
+sourceSets.test.java.srcDir 'src/main/java'
+
+task(question) << {
+
+  def insertUnderlineIfStartsWithDigit = { s ->
+    if (Character.isDigit(s.charAt(0))) {
+      s = '_' + s
+    }
+    s
+  }
+  
+  if (!project.hasProperty('q')) {
+     throw new InvalidUserDataException('You need to specify a question. E.g., gradle question "-Pq=Some Question"')
+  }
+
+  def question = project.q
+  
+  def questionPackage = insertUnderlineIfStartsWithDigit(question.replaceAll(' ', '_').toLowerCase())
+ 
+  def className = insertUnderlineIfStartsWithDigit(question.replaceAll(' ', ''))
+  
+  def questionPackageDir = new File(sourceSets.main.java.srcDirs.iterator().next(), questionPackage)
+  if(!questionPackageDir.exists()) {
+    println 'Create ' + questionPackageDir  
+    questionPackageDir.mkdirs()
+  }
+  
+  def questionFile = new File(questionPackageDir, className + '.java')
+  if(!questionFile.exists()) {
+    println 'Create ' + questionFile
+    questionFile.withWriter { out ->
+      out.writeLine("""\
+package ${questionPackage};
+
+import java.util.*;
+import org.junit.*;
+import static org.junit.Assert.*;
+
+public class ${className} {
+
+    // Insert your Solution class here
+
+    public static class UnitTest {
+        
+    }
+}
+""")
+    }
+  }
+
+}
+
