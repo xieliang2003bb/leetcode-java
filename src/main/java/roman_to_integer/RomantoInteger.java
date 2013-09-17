@@ -19,16 +19,15 @@ public class RomantoInteger {
 
         public int romanToInt(String s) {
             int num = 0;
-            for (int i = 0; i < s.length(); i++) {
+            num += symbols.get(s.charAt(s.length() - 1));
+            for (int i = s.length() - 2; i >= 0; i--) {
                 char c = s.charAt(i);
-                if (i + 1 < s.length()) {
-                    char nextC = s.charAt(i + 1);
-                    if (symbols.get(c) < symbols.get(nextC)) {
-                        num -= symbols.get(c);
-                        continue;
-                    }
+                char nextC = s.charAt(i + 1);
+                if (symbols.get(c) < symbols.get(nextC)) {
+                    num -= symbols.get(c);
+                } else {
+                    num += symbols.get(c);
                 }
-                num += symbols.get(c);
             }
             return num;
         }
