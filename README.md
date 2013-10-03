@@ -12,13 +12,13 @@ My Java solutions for [LeetCode Online Judge](http://oj.leetcode.com/).
 
 ## Generate an eclipse project
 
-```shell
+```bash
 gradle eclipse
 ```
 
 ## Generate a file for a question
 
-```shell
+```bash
 gradle question "-Pq=Some Question"
 ```
 
@@ -30,7 +30,7 @@ Unit tests are also embedded as inner classes of the main code. For an explanati
 
 If you write some unit tests, you can use the following command to run them.
 
-```shell
+```bash
 gradle test
 ```
 
