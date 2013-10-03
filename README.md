@@ -30,3 +30,6 @@ If you write some unit tests, you can use the following command to run them.
 <pre>
 $ gradle test
 </pre>
+
+## Build Status
+[![Build Status](https://travis-ci.org/zsxwing/leetcode-java.png?branch=master)](https://travis-ci.org/zsxwing/leetcode-java)
