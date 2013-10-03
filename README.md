@@ -1,11 +1,17 @@
 leetcode-java
 ========
 
-My Java solutions for "Interview Questions Online Judge" in the leetcode.com.
+My Java solutions for [LeetCode Online Judge](http://oj.leetcode.com/).
 
 ## Requirements
-* Run: Java >= 1.6
-* Compile: Java >= 1.6, Gradle >= 1.8.6
+* Java >= 1.6
+* Gradle >= 1.8.6 (1.8.6 is the only version I have tried)
+
+## Generate an eclipse project
+
+<pre>
+$ gradle eclipse
+</pre>
 
 ## Generate a file for a question
 
@@ -13,8 +19,14 @@ My Java solutions for "Interview Questions Online Judge" in the leetcode.com.
 $ gradle question "-Pq=Some Question"
 </pre>
 
-## Build
+The above command will generate a source file called `src/main/java/some_question/SomeQuestion.java`, and you can write your solution in this file directly.
+
+Unit tests are also embedded as inner classes of the main code. For an explanation of this design choice see Ben J. Christensen's [JUnit Tests as Inner Classes](http://benjchristensen.com/2011/10/23/junit-tests-as-inner-classes/).
+
+## Run unit tests
+
+If you write some unit tests, you can use the following command to run them.
 
 <pre>
-$ gradle build
+$ gradle test
 </pre>
