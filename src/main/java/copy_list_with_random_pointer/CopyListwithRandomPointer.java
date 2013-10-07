@@ -1,38 +1,38 @@
 package copy_list_with_random_pointer;
 
-import java.util.HashMap;
-
 import common.RandomListNode;
 
 public class CopyListwithRandomPointer {
 
     public class Solution {
 
-        private RandomListNode getNewNode(
-                HashMap<RandomListNode, RandomListNode> nodes,
-                RandomListNode oldNode) {
-            RandomListNode newNode = nodes.get(oldNode);
-            if (newNode == null) {
-                newNode = new RandomListNode(oldNode.label);
-                nodes.put(oldNode, newNode);
-            }
-            return newNode;
-        }
-
         public RandomListNode copyRandomList(RandomListNode head) {
-            RandomListNode newHead = null;
+            if (head == null) {
+                return null;
+            }
             RandomListNode p = head;
-            HashMap<RandomListNode, RandomListNode> nodes = new HashMap<RandomListNode, RandomListNode>();
             while (p != null) {
-                RandomListNode newP = getNewNode(nodes, p);
-                if (newHead == null) {
-                    newHead = newP;
+                RandomListNode newP = new RandomListNode(p.label);
+                newP.next = p.next;
+                newP.random = p.random;
+                p.next = newP;
+                p = newP.next;
+            }
+            p = head;
+            RandomListNode newHead = p.next;
+            while (p != null) {
+                RandomListNode newP = p.next;
+                if (newP.random != null) {
+                    newP.random = newP.random.next;
                 }
-                if (p.next != null) {
-                    newP.next = getNewNode(nodes, p.next);
-                }
-                if (p.random != null) {
-                    newP.random = getNewNode(nodes, p.random);
+                p = newP.next;
+            }
+            p = head;
+            while (p != null) {
+                RandomListNode newP = p.next;
+                p.next = newP.next;
+                if (newP.next != null) {
+                    newP.next = newP.next.next;
                 }
                 p = p.next;
             }
