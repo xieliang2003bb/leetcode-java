@@ -16,7 +16,7 @@ public class PalindromePartitioningII {
                 cuts[i + 1] = i;
             }
             for (int i = 0; i < s.length(); i++) {
-                for (int j = i; j >= 0; j--) {
+                for (int j = 0; j <= i; j++) {
                     if (s.charAt(i) == s.charAt(j)
                             && (i - j < 2 || isPalindrome[j + 1][i - 1])) {
                         isPalindrome[j][i] = true;
@@ -29,10 +29,5 @@ public class PalindromePartitioningII {
     }
 
     public static class UnitTest {
-
-        @Test
-        public void test() {
-            new PalindromePartitioningII().new Solution().minCut("efe");
-        }
     }
 }
