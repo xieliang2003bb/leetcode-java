@@ -1,6 +1,5 @@
 package palindrome_partitioning_ii;
 
-import org.junit.Test;
 
 public class PalindromePartitioningII {
 
