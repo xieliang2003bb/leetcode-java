@@ -2,8 +2,6 @@ package restore_ip_addresses;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
-
 public class RestoreIPAddresses {
 
     public class Solution {
@@ -53,10 +51,5 @@ public class RestoreIPAddresses {
     }
 
     public static class UnitTest {
-
-        @Test
-        public void test() {
-            new RestoreIPAddresses().new Solution().restoreIpAddresses("1111");
-        }
     }
 }
