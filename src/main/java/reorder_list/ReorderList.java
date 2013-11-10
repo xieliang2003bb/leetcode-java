@@ -1,7 +1,5 @@
 package reorder_list;
 
-import org.junit.Test;
-
 import common.ListNode;
 
 public class ReorderList {
