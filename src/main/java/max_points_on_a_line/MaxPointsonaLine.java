@@ -8,46 +8,33 @@ public class MaxPointsonaLine {
 
     public class Solution {
 
-        private class Line {
-            Point p1;
-            Point p2;
-
-            Line(Point p1, Point p2) {
-                this.p1 = p1;
-                this.p2 = p2;
-            }
-        }
-
-        private boolean isOnTheSameLine(Point p1, Point p2, Point p3) {
-            return (p3.y - p2.y) * (p2.x - p1.x) == (p3.x - p2.x)
-                    * (p2.y - p1.y);
+        private boolean isOnLine(Point p1, Point p2, Point p3) {
+            return (p1.y - p2.y) * (p2.x - p3.x) == (p1.x - p2.x)
+                    * (p2.y - p3.y);
         }
 
         public int maxPoints(Point[] points) {
-            List<Line> lines = new ArrayList<Line>();
+            List<Point[]> lines = new ArrayList<Point[]>();
             for (int i = 0; i < points.length; i++) {
                 for (int j = i + 1; j < points.length; j++) {
                     if (points[i].x != points[j].x
                             || points[i].y != points[j].y) {
-                        lines.add(new Line(points[i], points[j]));
+                        lines.add(new Point[] { points[i], points[j] });
                     }
                 }
             }
-            if (lines.size() == 0) {
+            if (lines.isEmpty()) {
                 return points.length;
             }
-            int[] counts = new int[lines.size()];
-            for (int i = 0; i < lines.size(); i++) {
-                Line line = lines.get(i);
+            int max = 0;
+            for (Point[] line : lines) {
+                int count = 0;
                 for (Point point : points) {
-                    if (isOnTheSameLine(line.p1, line.p2, point)) {
-                        counts[i]++;
+                    if (isOnLine(line[0], line[1], point)) {
+                        count++;
                     }
                 }
-            }
-            int max = counts[0];
-            for (int i = 1; i < counts.length; i++) {
-                max = Math.max(max, counts[i]);
+                max = Math.max(max, count);
             }
             return max;
         }
