@@ -29,7 +29,7 @@ public class LongestPalindromicSubstring {
                     p[i]++;
                 }
                 if (rightIndex < i + p[i]) {
-                    rightIndex = i;
+                    rightIndex = i + p[i];
                     id = i;
                 }
             }
