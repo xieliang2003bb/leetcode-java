@@ -18,7 +18,7 @@ public class CloneGraph {
                 }
                 newNode.neighbors.add(newNeighbor);
             }
-            return node;
+            return newNode;
         }
 
         public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
