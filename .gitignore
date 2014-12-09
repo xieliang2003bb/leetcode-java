@@ -5,3 +5,12 @@ target
 build
 bin
 .gradle
+
+# IntelliJ specific files/directories
+out
+.idea
+*.ipr
+*.iws
+*.iml
+atlassian-ide-plugin.xml
+
