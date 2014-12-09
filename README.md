@@ -13,13 +13,19 @@ My Java solutions for [LeetCode Online Judge](http://oj.leetcode.com/).
 ## Generate an eclipse project
 
 ```bash
-gradle eclipse
+./gradlew eclipse
+```
+
+## Generate an IntelliJ IDEA project
+
+```bash
+./gradlew idea
 ```
 
 ## Generate a file for a question
 
 ```bash
-gradle question "-Pq=Some Question"
+./gradlew question "-Pq=Some Question"
 ```
 
 The above command will generate a source file called `src/main/java/some_question/SomeQuestion.java`, and you can write your solution in this file directly.
@@ -31,6 +37,6 @@ Unit tests are also embedded as inner classes of the main code. For an explanati
 If you write some unit tests, you can use the following command to run them.
 
 ```bash
-gradle test
+./gradlew test
 ```
 

@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
@@ -27,6 +28,10 @@ dependencies {
 }
 
 sourceSets.test.java.srcDir 'src/main/java'
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.8'
+}
 
 task(question) << {
 
