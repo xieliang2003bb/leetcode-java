@@ -1,45 +1,53 @@
 package median_of_two_sorted_arrays;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 public class MedianofTwoSortedArrays {
 
     public class Solution {
-        private double findMedianSortedArrays(int A[], int left, int right,
-                int B[]) {
-            if (left > right) {
-                return findMedianSortedArrays(B,
-                        Math.max(0, (A.length + B.length) / 2 - A.length),
-                        Math.min(B.length - 1, (A.length + B.length) / 2), A);
-            }
-            int i = (left + right) / 2;
-            int j = (A.length + B.length) / 2 - i - 1;
 
-            if (j >= 0 && A[i] < B[j]) {
-                return findMedianSortedArrays(A, i + 1, right, B);
+        private int findKth(int A[], int m, int B[], int n, int k) {
+            if (m == 0) {
+                return B[k - 1];
             }
-            if (j < B.length - 1 && A[i] > B[j + 1]) {
-                return findMedianSortedArrays(A, left, i - 1, B);
+            if (n == 0) {
+                return A[k - 1];
             }
-
-            if ((A.length + B.length) % 2 == 0) {
-                if (i > 0) {
-                    int pre = j < 0 ? A[i - 1] : Math.max(A[i - 1], B[j]);
-                    return (A[i] + pre) / 2.0;
-                } else {
-                    return (A[i] + B[j]) / 2.0;
-                }
+            if (m + n == k) {
+                return Math.max(A[m - 1], B[n - 1]);
+            }
+            if (m > n) {
+                return findKth(B, n, A, m, k);
+            }
+            int x = Math.min(m, k / 2 + 1);
+            int y = k + 1 - x;
+            if (A[x - 1] < B[y - 1]) {
+                return findKth(A, m, B, y - 1, k);
+            } else if (A[x - 1] > B[y - 1]) {
+                return findKth(A, x - 1, B, n, k);
             } else {
-                return A[i];
+                return A[x - 1];
             }
         }
 
         public double findMedianSortedArrays(int A[], int B[]) {
-            return findMedianSortedArrays(A,
-                    Math.max(0, (A.length + B.length) / 2 - B.length),
-                    Math.min(A.length - 1, (A.length + B.length) / 2), B);
+            int n = A.length + B.length;
+            if (n % 2 == 1) {
+                return findKth(A, A.length, B, B.length, n / 2 + 1);
+            }
+            return (findKth(A, A.length, B, B.length, n / 2) +
+                    findKth(A, A.length, B, B.length, n / 2 + 1)) / 2.0;
         }
     }
 
     public static class UnitTest {
 
+        @Test
+        public void testFindMedianSortedArrays() {
+            Solution s = new MedianofTwoSortedArrays().new Solution();
+            assertEquals(2.5, s.findMedianSortedArrays(new int[]{3, 4}, new int[]{1, 2}), 1E-6);
+        }
     }
 }
