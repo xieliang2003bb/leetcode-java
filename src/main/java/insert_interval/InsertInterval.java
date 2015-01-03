@@ -1,38 +1,47 @@
 package insert_interval;
 
-import java.util.ArrayList;
-
 import common.Interval;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class InsertInterval {
 
-    /**
-     * "Output Limit Exceeded". Is there a perfect Java solution to pass the
-     * tests?
-     */
     public class Solution {
 
-        public ArrayList<Interval> insert(ArrayList<Interval> intervals,
-                Interval newInterval) {
-            for (int i = 0; i < intervals.size(); i++) {
-                Interval interval = intervals.get(i);
-                if (newInterval.end > interval.start) {
-                    intervals.add(i, newInterval);
-                    return intervals;
-                }
-                if (newInterval.start >= interval.end) {
-                    newInterval.start = Math.min(newInterval.start,
-                            interval.start);
+        public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+            List<Interval> newIntervals = new ArrayList<Interval>();
+            for (Interval interval : intervals) {
+                if (newInterval == null || interval.end < newInterval.start) {
+                    newIntervals.add(interval);
+                } else if (interval.start > newInterval.end) {
+                    newIntervals.add(newInterval);
+                    newIntervals.add(interval);
+                    newInterval = null;
+                } else {
+                    newInterval.start = Math.min(newInterval.start, interval.start);
                     newInterval.end = Math.max(newInterval.end, interval.end);
-                    intervals.remove(i);
                 }
             }
-            intervals.add(newInterval);
-            return intervals;
+            if (newInterval != null) {
+                newIntervals.add(newInterval);
+            }
+            return newIntervals;
         }
     }
 
     public static class UnitTest {
 
+        @Test
+        public void testInsert() {
+            Solution s = new InsertInterval().new Solution();
+            assertEquals(
+                    Arrays.asList(new Interval(0, 0), new Interval(1, 5)),
+                    s.insert(Arrays.asList(new Interval(1, 5)), new Interval(0, 0)));
+        }
     }
 }
