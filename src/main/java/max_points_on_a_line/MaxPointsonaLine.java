@@ -2,41 +2,41 @@ package max_points_on_a_line;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 public class MaxPointsonaLine {
 
     public class Solution {
 
-        private boolean isOnLine(Point p1, Point p2, Point p3) {
-            return (p1.y - p2.y) * (p2.x - p3.x) == (p1.x - p2.x)
-                    * (p2.y - p3.y);
-        }
-
         public int maxPoints(Point[] points) {
-            List<Point[]> lines = new ArrayList<Point[]>();
-            for (int i = 0; i < points.length; i++) {
-                for (int j = i + 1; j < points.length; j++) {
-                    if (points[i].x != points[j].x
-                            || points[i].y != points[j].y) {
-                        lines.add(new Point[] { points[i], points[j] });
+            int res = 0;
+            Map<Float, Integer> m = new HashMap<Float, Integer>();
+            for (int i = 0; i < points.length; ++i) {
+                m.clear();
+                m.put((float) Integer.MIN_VALUE, 0);
+                int duplicate = 1;
+                for (int j = 0; j < points.length; ++j) {
+                    if (j == i) continue;
+                    if (points[i].x == points[j].x && points[i].y == points[j].y) {
+                        ++duplicate;
+                        continue;
+                    }
+                    float slope = (points[i].x == points[j].x) ? (float) Integer.MAX_VALUE
+                        : (float) (points[j].y - points[i].y) / (points[j].x - points[i].x);
+                    if (m.containsKey(slope)) {
+                        m.put(slope, m.get(slope) + 1);
+                    } else {
+                        m.put(slope, 1);
                     }
                 }
-            }
-            if (lines.isEmpty()) {
-                return points.length;
-            }
-            int max = 0;
-            for (Point[] line : lines) {
-                int count = 0;
-                for (Point point : points) {
-                    if (isOnLine(line[0], line[1], point)) {
-                        count++;
-                    }
+                for (Map.Entry<Float, Integer> entry : m.entrySet()) {
+                    res = Math.max(res, entry.getValue() + duplicate);
                 }
-                max = Math.max(max, count);
             }
-            return max;
+            return res;
         }
     }
 
