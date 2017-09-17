@@ -14,9 +14,9 @@ public class BattleShipsInBoard {
             for (int i = 0; i < m; ++i) {
                 for (int j = 0; j < n; ++j) {
                     if (board[i][j] == 'X' && !visited[i][j]) {
-                        int[] lineOrCol = {0, 0};
-                        dfs(board, visited, lineOrCol, i, j);
-                        if (lineOrCol[0] == i || lineOrCol[1] == j) ++res;
+                        int[] lineAndCol = {0, 0};
+                        dfs(board, visited, lineAndCol, i, j);
+                        if (lineAndCol[0] == i || lineAndCol[1] == j) ++res;
                     }
                 }
             }
