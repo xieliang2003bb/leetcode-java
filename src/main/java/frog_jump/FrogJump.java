@@ -60,7 +60,7 @@ public class FrogJump {
 
             return !dp.get(stones[stones.length - 1]).isEmpty();
         }
-        
+
     }
 
 
