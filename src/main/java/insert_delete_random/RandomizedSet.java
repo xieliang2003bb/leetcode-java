@@ -64,7 +64,7 @@ public class RandomizedSet {
         // 2 was already in the set, so return false.
         System.out.println("randomSet.insert(2) -> " + randomSet.insert(2));
 
-        // Since 1 is the only number in the set, getRandom always return 1.
+        // Since 2 is the only number in the set, getRandom always return 2.
         System.out.println("randomSet.getRandom() -> " + randomSet.getRandom());
 
     }
