@@ -28,11 +28,4 @@ public class UTF8Validation {
         System.out.println("this is for test");
     }
 
-
-
-
-
-
-
-
 }
