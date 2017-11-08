@@ -1,57 +1,43 @@
 package word_ladder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class WordLadder {
 
-    public class Solution {
-        public int ladderLength(String start, String end, HashSet<String> dict) {
-            if (start.equals(end)) {
-                return 1;
-            }
-            List<String> queue = new ArrayList<String>();
-            int level = 1;
-            queue.add(start);
-            int begin = 0;
-            char[] endCharArray = end.toCharArray();
-            Set<String> used = new HashSet<String>();
-            used.add(start);
-            while (begin < queue.size()) {
-                int tail = queue.size();
-                for (int i = begin; i < tail; i++) {
-                    char[] word = queue.get(i).toCharArray();
-                    for (int j = 0; j < word.length; j++) {
-                        char currentChar = word[j];
-                        for (char c = 'a'; c <= 'z'; c++) {
-                            if (c == currentChar) {
-                                continue;
-                            }
-                            word[j] = c;
-                            if (Arrays.equals(word, endCharArray)) {
-                                return level + 1;
-                            }
-                            String nextWord = new String(word);
-                            if (dict.contains(nextWord)
-                                    && !used.contains(nextWord)) {
-                                used.add(nextWord);
-                                queue.add(nextWord);
-                            }
-                            word[j] = currentChar;
+    public static class Solution {
+        public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+            if (!wordList.contains(endWord)) return 0;
+            Map<String, Integer> m = new HashMap<>();
+            Queue<String> q = new LinkedList<>();
+            m.put(beginWord, 1);
+            q.add(beginWord);
+            while (!q.isEmpty()) {
+                String word = q.remove();
+                for (int i = 0; i < word.length(); ++i) {
+                    String newWord = word;
+                    for (char ch = 'a'; ch <= 'z'; ++ch) {
+                        newWord = newWord.substring(0, i) + ch + newWord.substring(i + 1);
+                        if (newWord.compareTo(endWord) == 0) return m.get(word) + 1;
+                        if (wordList.contains(newWord) && !m.containsKey(newWord)) {
+                            q.add(newWord);
+                            m.put(newWord, m.get(word) + 1);
                         }
                     }
                 }
-                level++;
-                begin = tail;
             }
             return 0;
         }
-    }
-
-    public static class UnitTest {
 
     }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        List<String> dict = new ArrayList<String>(
+                Arrays.asList("hot","dot","dog","lot","log", "cog"));
+        int ret = sol.ladderLength("hit", "cog", dict);
+        System.out.println("test result is " + ret);
+
+    }
+
+
 }
