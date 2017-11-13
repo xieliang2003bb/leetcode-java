@@ -16,6 +16,7 @@ public class WordLadder {
                 for (int i = 0; i < word.length(); ++i) {
                     String newWord = word;
                     for (char ch = 'a'; ch <= 'z'; ++ch) {
+                        if (newWord.charAt(i) == ch) continue;
                         newWord = newWord.substring(0, i) + ch + newWord.substring(i + 1);
                         if (newWord.compareTo(endWord) == 0) return m.get(word) + 1;
                         if (wordList.contains(newWord) && !m.containsKey(newWord)) {

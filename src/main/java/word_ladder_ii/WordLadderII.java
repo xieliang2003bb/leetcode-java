@@ -1,128 +1,59 @@
 package word_ladder_ii;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class WordLadderII {
 
-    /**
-     * "Time Limit Exceeded". Is there a perfect Java solution to pass the
-     * tests?
-     */
-    public class Solution {
+    public static class Solution {
 
-        private HashMap<Integer, List<Integer>> searchNeighbors(String[] nodes) {
-            HashMap<String, Integer> indices = new HashMap<String, Integer>(
-                    nodes.length);
-            int i = 0;
-            for (String word : nodes) {
-                indices.put(word, i++);
-            }
-
-            HashMap<Integer, List<Integer>> neighbors = new HashMap<Integer, List<Integer>>();
-
-            i = 0;
-            for (String word : nodes) {
-                List<Integer> neighbor = neighbors.get(word);
-                if (neighbor == null) {
-                    neighbor = new ArrayList<Integer>();
-                    neighbors.put(i, neighbor);
+        public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+            List<List<String>> res = new ArrayList<>(new ArrayList<>());
+            Set<String> dict = new HashSet<>(wordList);
+            List<String> p = new ArrayList<>(Arrays.asList(beginWord));
+            Queue<List<String>> paths = new LinkedList<>();
+            paths.add(p);
+            int level = 1, minLevel = Integer.MAX_VALUE;
+            Set<String> words = new HashSet<>();
+            while (!paths.isEmpty()) {
+                List<String> t = paths.remove();
+                if (t.size() > level) {   // enters a new level
+                    for (String w : words) dict.remove(w);   // removes words used in the last level
+                    words.clear();
+                    level = t.size();
+                    if (level > minLevel)
+                        break;
                 }
-                char[] temp = word.toCharArray();
-                for (int j = 0; j < temp.length; j++) {
-                    char oldC = temp[j];
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        if (c != oldC) {
-                            temp[j] = c;
-                            String newS = new String(temp);
-                            Integer index = indices.get(newS);
-                            if (index != null) {
-                                neighbor.add(index);
-                            }
+                String last = t.get(t.size() - 1);
+                for (int i = 0; i < last.length(); ++i) {
+                    // String newLast = last;
+                    for (char ch = 'a'; ch <= 'z'; ++ch) {
+                        if (last.charAt(i) == ch) continue;
+                        String newLast = last.substring(0, i) + ch + last.substring(i + 1);
+                        if (!dict.contains(newLast)) continue;
+                        words.add(newLast);
+                        List<String> nextPath = new ArrayList<>(t);
+                        nextPath.add(newLast);
+                        if (newLast.compareTo(endWord) == 0) {
+                            res.add(nextPath);
+                            minLevel = level;
+                        } else {
+                            paths.add(nextPath);
                         }
-                    }
-                    temp[j] = oldC;
-                }
-                i++;
-            }
-            return neighbors;
-        }
 
-        public ArrayList<ArrayList<String>> findLadders(String start,
-                String end, HashSet<String> dict) {
-            ArrayList<ArrayList<String>> ans = new ArrayList<ArrayList<String>>();
-
-            if (start.equals(end)) {
-                ArrayList<String> l = new ArrayList<String>();
-                l.add(start);
-                ans.add(l);
-                return ans;
-            }
-
-            ArrayList<Integer> queue = new ArrayList<Integer>();
-            ArrayList<Integer> prev = new ArrayList<Integer>();
-
-            dict.add(start);
-            dict.add(end);
-
-            String[] nodes = new String[dict.size()];
-            int j = 0;
-            int startIndex = 0;
-            int endIndex = 0;
-            for (String word : dict) {
-                if (word.equals(start)) {
-                    startIndex = j;
-                }
-                if (word.equals(end)) {
-                    endIndex = j;
-                }
-                nodes[j++] = word;
-            }
-            HashMap<Integer, List<Integer>> neighbors = searchNeighbors(nodes);
-            System.gc(); // To avoid "Memory Limit Exceeded"
-
-            queue.add(startIndex);
-            prev.add(-1);
-            boolean[] used = new boolean[nodes.length];
-            used[startIndex] = true;
-            int begin = 0;
-            boolean find = false;
-            while (!find && begin < queue.size()) {
-                int tail = queue.size();
-                for (int i = begin; i < tail; i++) {
-                    int s = queue.get(i);
-                    for (int indexInNode : neighbors.get(s)) {
-                        if (indexInNode == endIndex) {
-                            find = true;
-                            ArrayList<String> path = new ArrayList<String>();
-                            path.add(end);
-                            int index = i;
-                            while (index >= 0) {
-                                path.add(nodes[queue.get(index)]);
-                                index = prev.get(index);
-                            }
-                            Collections.reverse(path);
-                            ans.add(path);
-                            break;
-                        }
-                        if (!find && !used[indexInNode]) {
-                            queue.add(indexInNode);
-                            prev.add(i);
-                        }
                     }
                 }
-                begin = tail;
-                for (int i = begin; i < tail; i++) {
-                    used[queue.get(i)] = true;
-                }
             }
-            return ans;
+            return res;
         }
     }
 
-    public static class UnitTest {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        List<String> dict = new ArrayList<String>(
+                Arrays.asList("hot","dot","dog","lot","log", "cog"));
+        List<List<String>> ret = sol.findLadders("hit", "cog", dict);
+        System.out.println("test result is " + ret.toString());
+
     }
+
 }
