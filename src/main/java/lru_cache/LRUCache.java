@@ -10,8 +10,7 @@ public class LRUCache {
     public LRUCache(final int capacity) {
         assert capacity > 0;
         map = new LinkedHashMap<Integer, Integer>(16, 0.75f, true) {
-            protected boolean removeEldestEntry(
-                    Map.Entry<Integer, Integer> eldest) {
+            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
                 return size() > capacity;
             }
         };
@@ -25,7 +24,7 @@ public class LRUCache {
         return value;
     }
 
-    public void set(int key, int value) {
+    public void put(int key, int value) {
         map.put(key, value);
     }
 }
