@@ -3,7 +3,7 @@ package surrounded_regions;
 public class SurroundedRegions {
 
     public class Solution {
-        
+
         public void solve(char[][] board) {
             for (int i = 0; i < board.length; ++i) {
                 for (int j = 0; j < board[i].length; ++j) {
