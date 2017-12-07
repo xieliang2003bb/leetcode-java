@@ -1,4 +1,4 @@
-package lowest_common_ancestor_BTree;
+package LCA_Binary_Tree;
 
 import common.TreeNode;
 
