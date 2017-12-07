@@ -1,4 +1,4 @@
-package LCA_Binary_Search_Tree;
+package lca_binary_search_tree;
 
 import common.TreeNode;
 
