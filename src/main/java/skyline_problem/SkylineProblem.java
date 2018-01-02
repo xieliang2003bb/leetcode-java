@@ -19,10 +19,8 @@ public class SkylineProblem {
             TreeMultiset<Integer> m = TreeMultiset.create(); // sort elements
             int pre = 0, cur = 0;
             for (int[] a : buildings) {
-                int[] aa = {a[0], -a[2]};
-                h.add(aa);
-                int[] bb = {a[1], a[2]};
-                h.add(bb);
+                h.add(new int[] {a[0], -a[2]});
+                h.add(new int[] {a[1], a[2]});
             }
 
             Collections.sort(h, new Comparator<int[]>() {
@@ -40,8 +38,7 @@ public class SkylineProblem {
                 else m.remove(a[1]);
                 cur = m.lastEntry().getElement();
                 if (cur != pre) {
-                    int[] aa = {a[0], cur};
-                    res.add(aa);
+                    res.add(new int[] {a[0], cur} );
                     pre = cur;
                 }
             }
