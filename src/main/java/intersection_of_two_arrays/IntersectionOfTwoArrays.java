@@ -1,7 +1,5 @@
 package intersection_of_two_arrays;
 
-import com.google.common.primitives.Ints;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +25,7 @@ public class IntersectionOfTwoArrays {
                     ++i; ++j;
                 }
             }
-            return Ints.toArray(res);
+            return res.stream().mapToInt(k->k).toArray();
         }
 
     }
