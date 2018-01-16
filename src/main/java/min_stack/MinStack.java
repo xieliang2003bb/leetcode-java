@@ -1,67 +1,38 @@
 package min_stack;
 
+import java.util.Stack;
+
 public class MinStack {
 
-    private static class IntStack {
-        private int[] items = new int[16];
-        private int size = 0;
+    private Stack<Integer> _stack = new Stack<Integer>();
+    private Stack<Integer> _minStack = new Stack<Integer>();
 
-        private void ensureSize(int newSize) {
-            if (items.length < newSize) {
-                int[] newItems = new int[items.length * 2];
-                System.arraycopy(items, 0, newItems, 0, items.length);
-                items = newItems;
-            }
-        }
 
-        public void push(int v) {
-            ensureSize(size + 1);
-            items[size++] = v;
-        }
+    /** initialize your data structure here. */
+    public MinStack() {
 
-        public void pop() {
-            if (size == 0) {
-                throw new IllegalStateException("The stack is empty");
-            }
-            size--;
-        }
-
-        public int top() {
-            if (size == 0) {
-                throw new IllegalStateException("The stack is empty");
-            }
-            return items[size - 1];
-        }
-
-        public boolean isEmpty() {
-            return size == 0;
-        }
     }
 
-    private IntStack minStack = new IntStack();
-    private IntStack stack = new IntStack();
-
-    public void push(int x) {
-        if (stack.isEmpty() || x <= minStack.top()) {
-            minStack.push(x);
-        }
-        stack.push(x);
+    public void push(Integer x) {
+        _stack.push(x);
+        if (_minStack.empty() || x <= _minStack.peek()) _minStack.push(x);
     }
 
     public void pop() {
-        int x = stack.top();
-        stack.pop();
-        if (x == minStack.top()) {
-            minStack.pop();
+        if (!_stack.empty()) {
+            if (_stack.peek() == _minStack.peek()) _minStack.pop();
+            _stack.pop();
         }
     }
 
     public int top() {
-        return stack.top();
+        if (!_stack.empty()) return _stack.peek();
+        return 0;
     }
 
     public int getMin() {
-        return minStack.top();
+        if (!_minStack.empty()) return _minStack.peek();
+        return 0;
     }
 
 }
