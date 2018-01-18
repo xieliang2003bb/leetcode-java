@@ -2,12 +2,13 @@ package triangle;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Triangle {
 
     public class Solution {
-        public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
-            ArrayList<Integer> sum = new ArrayList<Integer>();
+        public int minimumTotal(List<List<Integer>> triangle) {
+            List<Integer> sum = new ArrayList<Integer>();
             if (triangle.isEmpty()) {
                 return 0;
             }
