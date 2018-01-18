@@ -4,12 +4,12 @@ public class JumpGame {
 
     public class Solution {
         public boolean canJump(int[] A) {
-            assert A != null;
-            int far = 0;
-            for (int i = 0; i < A.length && i <= far; i++) {
-                far = Math.max(far, A[i] + i);
+            int[] dp = new int[A.length];
+            for (int i = 1; i < A.length; ++i) {
+                dp[i] = Integer.max(dp[i - 1], A[i - 1]) - 1;
+                if (dp[i] < 0) return false;
             }
-            return far >= A.length - 1;
+            return dp[A.length - 1] >= 0;
         }
     }
 
