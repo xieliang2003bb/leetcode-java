@@ -3,19 +3,20 @@ package jump_game_ii;
 public class JumpGameII {
 
     public class Solution {
-        public int jump(int[] A) {
-            int step = 0;
-            int next = 0;
-            int current = 0;
-            for (int i = 0; i < A.length; i++) {
-                if (i > current) {
-                    current = next;
-                    step++;
+        int jump(int A[]) {
+            int res = 0, i = 0, cur = 0;
+            while (cur < A.length - 1) {
+                int pre = cur;
+                while (i <= pre) {
+                    cur = Integer.max(cur, i + A[i]);
+                    ++i;
                 }
-                next = Math.max(next, i + A[i]);
+                ++res;
+                if (pre == cur) return -1; // May not need this
             }
-            return step;
+            return res;
         }
+
     }
 
     public static class UnitTest {
