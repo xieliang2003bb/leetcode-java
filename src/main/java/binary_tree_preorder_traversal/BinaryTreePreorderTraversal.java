@@ -1,46 +1,26 @@
 package binary_tree_preorder_traversal;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-
 import common.TreeNode;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class BinaryTreePreorderTraversal {
 
     public class Solution {
-        private void preorderTraversal(TreeNode root,
-                ArrayList<Integer> preorder) {
-            if (root == null) {
-                return;
+        public List<Integer> preorderTraversal(TreeNode root) {
+            List<Integer> res = new ArrayList<>();
+            if (root == null) return res;
+            Stack<TreeNode> s = new Stack<>();
+            s.push(root);
+            while (!s.empty()) {
+                TreeNode t = s.peek(); s.pop();
+                res.add(t.val);
+                if (t.right != null) s.push(t.right);
+                if (t.left != null) s.push(t.left);
             }
-            preorder.add(root.val);
-            preorderTraversal(root.left, preorder);
-            preorderTraversal(root.right, preorder);
-        }
-
-        public ArrayList<Integer> preorderTraversal(TreeNode root) {
-            ArrayList<Integer> preorder = new ArrayList<Integer>();
-            preorderTraversal(root, preorder);
-            return preorder;
-        }
-
-        public ArrayList<Integer> preorderTraversalWithIterative(TreeNode root) {
-            ArrayList<Integer> preorder = new ArrayList<Integer>();
-            ArrayDeque<TreeNode> stack = new ArrayDeque<TreeNode>();
-            if (root != null) {
-                stack.offerLast(root);
-                while (!stack.isEmpty()) {
-                    TreeNode p = stack.removeLast();
-                    while (p != null) {
-                        preorder.add(p.val);
-                        if (p.right != null) {
-                            stack.offerLast(p.right);
-                        }
-                        p = p.left;
-                    }
-                }
-            }
-            return preorder;
+            return res;
         }
     }
 
