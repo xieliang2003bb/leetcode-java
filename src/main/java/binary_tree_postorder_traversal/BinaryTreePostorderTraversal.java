@@ -1,56 +1,33 @@
 package binary_tree_postorder_traversal;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-
 import common.TreeNode;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class BinaryTreePostorderTraversal {
 
     public class Solution {
-        private void postorderTraversal(TreeNode root,
-                ArrayList<Integer> postorder) {
-            if (root == null) {
-                return;
-            }
-            postorderTraversal(root.left, postorder);
-            postorderTraversal(root.right, postorder);
-            postorder.add(root.val);
-        }
-
-        public ArrayList<Integer> postorderTraversal(TreeNode root) {
-            ArrayList<Integer> postorder = new ArrayList<Integer>();
-            postorderTraversal(root, postorder);
-            return postorder;
-        }
-
-        public ArrayList<Integer> postorderTraversalWithIterative(TreeNode root) {
-            ArrayList<Integer> postorder = new ArrayList<Integer>();
-            if (root == null) {
-                return postorder;
-            }
-            ArrayDeque<TreeNode> stack = new ArrayDeque<TreeNode>();
-            TreeNode pre = null;
-            stack.offerLast(root);
-            while (!stack.isEmpty()) {
-                TreeNode p = stack.peekLast();
-                if (pre == null || pre.left == p || pre.right == p) {
-                    if (p.left != null) {
-                        stack.offerLast(p.left);
-                    } else if (p.right != null) {
-                        stack.offerLast(p.right);
-                    }
-                } else if (p.left == pre) {
-                    if (p.right != null) {
-                        stack.offerLast(p.right);
-                    }
+        public List<Integer> postorderTraversal(TreeNode root) {
+            List<Integer> res = new ArrayList<>();
+            if (root == null) return res;
+            Stack<TreeNode> s = new Stack<>();
+            s.push(root);
+            TreeNode head = root;
+            while (!s.empty()) {
+                TreeNode t = s.peek();
+                if ((t.left == null && t.right == null) ||
+                        t.left == head || t.right == head) {
+                    res.add(t.val);
+                    s.pop();
+                    head = t;  // set head to t after added to res
                 } else {
-                    postorder.add(p.val);
-                    stack.removeLast();
+                    if (t.right != null) s.push(t.right);
+                    if (t.left != null) s.push(t.left);
                 }
-                pre = p;
             }
-            return postorder;
+            return res;
         }
     }
 
