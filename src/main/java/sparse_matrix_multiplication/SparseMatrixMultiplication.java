@@ -43,7 +43,7 @@ public class SparseMatrixMultiplication {
     }
 
     public static class UnitTest {
-        
+
     }
 
 }
