@@ -10,10 +10,14 @@ public class DesignTicTacToe {
     public class Solution {
 
         public class TicTacToe {
-            private final int N = 3;
+            private int N = 3;
             private int[] rows = new int[N];
             private int[] cols = new int[N];
             private int diag = 0, rev_diag = 0;
+
+            public void TicTacToe(int n) {
+                this.N = n;
+            }
 
             public int move(int row, int col, int player) {
                 int add = player == 1 ? 1 : -1;
