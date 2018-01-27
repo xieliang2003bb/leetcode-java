@@ -1,5 +1,7 @@
 package flatten_nested_list_iterator;
 
+import common.NestedInteger;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -8,20 +10,6 @@ import java.util.Stack;
  * Created by lxie on 9/20/17.
  */
 public class FlattenNestListIterator {
-
-    public interface NestedInteger {
-        // @return true if this NestedInteger holds a single integer, rather than a nested list.
-        public boolean isInteger();
-
-        // @return the single integer that this NestedInteger holds, if it holds a single integer
-        // Return null if this NestedInteger holds a nested list
-        public Integer getInteger();
-
-        // @return the nested list that this NestedInteger holds, if it holds a nested list
-        // Return null if this NestedInteger holds a single integer
-        public List<NestedInteger> getList();
-    }
-
 
     class Solution {
 
