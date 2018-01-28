@@ -36,7 +36,7 @@ public class NestedListWeightSumII {
     }
 
     public static class UnitTest {
-        
+
     }
 
 }
