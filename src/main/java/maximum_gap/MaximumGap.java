@@ -1,58 +1,44 @@
 package maximum_gap;
 
-import java.util.*;
-
-import org.junit.*;
-
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MaximumGap {
 
     public class Solution {
-        public int maximumGap(int[] num) {
-            if (num.length < 2) {
-                return 0;
+        public int maximumGap(int[] numss) {
+            if (numss.length == 0) return 0;
+            int mx = Integer.MIN_VALUE, mn = Integer.MAX_VALUE, n = numss.length;
+            for (int d : numss) {
+                mx = Integer.max(mx, d);
+                mn = Integer.min(mn, d);
             }
-            int min = num[0];
-            int max = num[0];
-            for (int i = 1; i < num.length; i++) {
-                min = Math.min(min, num[i]);
-                max = Math.max(max, num[i]);
+            int size = (mx - mn) / n + 1;
+            int bucket_nums = (mx - mn) / size + 1;
+
+            int[] bucket_min = new int[bucket_nums];
+            int[] bucket_max = new int[bucket_nums];
+            Arrays.fill(bucket_min, Integer.MAX_VALUE);
+            Arrays.fill(bucket_max, Integer.MIN_VALUE);
+
+            Set<Integer> s = new HashSet<>();
+
+            for (int d : numss) {
+                int idx = (d - mn) / size;
+                bucket_min[idx] = Integer.min(bucket_min[idx], d);
+                bucket_max[idx] = Integer.max(bucket_max[idx], d);
+                s.add(idx);
             }
-            if (min == max) {
-                return 0;
+            int pre = 0, res = 0;
+            for (int i = 1; i < n; ++i) {
+                if (!s.contains(i)) continue;
+                res = Integer.max(res, bucket_min[i] - bucket_max[pre]);
+                pre = i;
             }
-            // ceil( (max - min) / (n - 1) )
-            int gap = (max - min + num.length - 2) / (num.length - 1);
-            int bucketNum = (max - min) / gap + 1;
-            int[] minInBucket = new int[bucketNum];
-            int[] maxInBucket = new int[bucketNum];
-            Arrays.fill(minInBucket, -1);
-            Arrays.fill(maxInBucket, -1);
-            for (int i = 0; i < num.length; i++) {
-                int bucketId = (num[i] - min) / gap;
-                if (minInBucket[bucketId] < 0) {
-                    minInBucket[bucketId] = maxInBucket[bucketId] = num[i];
-                } else {
-                    minInBucket[bucketId] = Math.min(minInBucket[bucketId], num[i]);
-                    maxInBucket[bucketId] = Math.max(maxInBucket[bucketId], num[i]);
-                }
-            }
-            int currentMax;
-            int i = 0;
-            while (i < bucketNum && minInBucket[i] < 0) {
-                i++;
-            }
-            currentMax = maxInBucket[i];
-            gap = 0;
-            for (i++; i < bucketNum; i++) {
-                if (minInBucket[i] >= 0) {
-                    gap = Math.max(gap, minInBucket[i] - currentMax);
-                    currentMax = maxInBucket[i];
-                }
-            }
-            return gap;
+            return res;
         }
+
     }
 
     public static class UnitTest {
