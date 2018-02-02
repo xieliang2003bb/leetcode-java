@@ -2,7 +2,8 @@ package fraction_to_recurring_decimal;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,64 +11,32 @@ public class FractiontoRecurringDecimal {
 
     public class Solution {
 
-        private String fraction(long mod, long divider) {
-            ArrayList<Long> mods = new ArrayList<Long>();
-            mods.add(mod);
-            ArrayList<Long> remainders = new ArrayList<Long>();
-            int i;
-            while (true) {
-                mod *= 10;
-                remainders.add(mod / divider);
-                mod = mod % divider;
-                if (mod == 0) {
-                    i = -1;
-                    break;
-                }
-                i = mods.indexOf(mod);
-                if (i >= 0) {
-                    break;
-                }
-                mods.add(mod);
-            }
-            StringBuilder builder = new StringBuilder();
-            if (i < 0) {
-                for (long r : remainders) {
-                    builder.append(r);
-                }
-            } else {
-                int j = 0;
-                for (; j < i; j++) {
-                    builder.append(remainders.get(j));
-                }
-                builder.append('(');
-                for (; j < remainders.size(); j++) {
-                    builder.append(remainders.get(j));
-                }
-                builder.append(')');
-            }
-            return builder.toString();
-        }
-
         public String fractionToDecimal(int numerator, int denominator) {
-            boolean negative = (numerator < 0 && denominator > 0) || (numerator > 0 && denominator < 0);
-            long num = Math.abs((long) numerator);
-            long denom = Math.abs((long) denominator);
-            long remainder = num / denom;
-            long mod = num % denom;
-            if (mod == 0) {
-                if (negative) {
-                    return "-" + remainder;
-                } else {
-                    return Long.toString(remainder);
+            int s1 = numerator >= 0 ? 1 : -1;
+            int s2 = denominator >= 0 ? 1 : -1;
+            long num = Math.abs((long)numerator);
+            long den = Math.abs((long)denominator);
+            long out = num / den;
+            long rem = num % den;
+            Map<Long, Integer> m = new HashMap<>();
+            String res = Long.toString(out);
+            if (s1 * s2 == -1 && (out > 0 || rem > 0)) res = "-" + res;
+            if (rem == 0) return res;
+            res += ".";
+            StringBuilder s = new StringBuilder("");
+            int pos = 0;
+            while (rem != 0) {
+                if (m.containsKey(rem)) {
+                    s.insert(m.get(rem), "(");
+                    s.append(")");
+                    return res + s;
                 }
-            } else {
-                if (negative) {
-                    return "-" + remainder + "." + fraction(mod, denom);
-                } else {
-                    return remainder + "." + fraction(mod, denom);
-                }
+                m.put(rem, pos);
+                s.append(Long.toString((rem * 10) / den));
+                rem = (rem * 10) % den;
+                ++pos;
             }
-
+            return res + s;
         }
     }
 
