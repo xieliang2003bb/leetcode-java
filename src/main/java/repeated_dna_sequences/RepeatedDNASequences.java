@@ -1,27 +1,32 @@
 package repeated_dna_sequences;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RepeatedDNASequences {
 
     public class Solution {
-        public List<String> findRepeatedDnaSequences(String s) {
-            Set<String> sequences = new HashSet<String>();
-            Set<String> result = new HashSet<String>();
-            for (int i = 0; i + 10 <= s.length(); i++) {
-                String substring = s.substring(i, i + 10);
-                if (sequences.contains(substring)) {
-                    result.add(substring);
-                } else {
-                    sequences.add(substring);
-                }
+        public List<String> findRepeatedDnaSequences1(String s) {
+            if (s.length() < 10) return new ArrayList<>();
+            char[] si = s.toCharArray();
+            Set<String> res = new HashSet<>();
+            Set<Integer> st= new HashSet<>();
+            Map<Character, Integer> m = new HashMap<> ();
+            m.put('A', 0); m.put('C', 1); m.put('G', 2); m.put('T', 3);
+            int cur = 0, i = 0;
+            while (i < 9) cur = cur << 2 | m.get(si[i++]);
+            while (i < s.length()) {
+                cur = ((cur & 0x3ffff) << 2) | (m.get(si[i++])); // 20 bits for 10-letter-long
+                if (st.contains(cur)) res.add(s.substring(i - 10, i));
+                else st.add(cur);
             }
-            System.gc();
-            return new ArrayList<String>(result);
+            return new ArrayList<>(res);
+
         }
+
+    }
+
+    public static class UnitTest {
+
     }
 }
 
