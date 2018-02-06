@@ -26,7 +26,7 @@ public class RemoveLinkedListElement {
     }
 
     public static class UnitTest {
-        
+
     }
 
 }

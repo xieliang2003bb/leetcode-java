@@ -22,8 +22,7 @@ public class CourseSchedule {
                 int from = edge[1];
                 int to = edge[0];
                 inDegree[to]++;
-                List<Integer> nodes = outNodes.get(from);
-                nodes.add(to);
+                outNodes.get(from).add(to);
             }
             while (!courses.isEmpty()) {
                 List<Integer> toRemoved = new ArrayList<Integer>();
