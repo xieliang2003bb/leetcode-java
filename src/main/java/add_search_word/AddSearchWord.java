@@ -11,7 +11,7 @@ public class AddSearchWord {
             public TrieNode[] child = new TrieNode[26];
             public boolean isWord;
 
-            public void TrieNode() {
+            public TrieNode() {
                 for (TrieNode a : child) a = null;
             }
 
@@ -19,7 +19,7 @@ public class AddSearchWord {
 
         public TrieNode root;
 
-        public void WordDictionary(){
+        public WordDictionary(){
             root = new TrieNode();
         }
 
@@ -57,5 +57,5 @@ public class AddSearchWord {
 
 
     }
-    
+
 }
