@@ -4,24 +4,38 @@ public class BestTimetoBuyandSellStockIII {
 
     public class Solution {
         public int maxProfit(int[] prices) {
-            if (prices.length == 0) {
-                return 0;
+            int len = prices.length;
+            if (len==0) return 0;
+
+            int[] historyProfit = new int[len];
+            int[] futureProfit = new int[len];
+
+            int valley = prices[0];
+            int peak = prices[len-1];
+            int maxProfit = 0;
+
+            // forward, calculate max profit until this time
+            for (int i = 0; i<len; ++i)
+            {
+                valley = Integer.min(valley,prices[i]);
+                if(i>0)
+                {
+                    historyProfit[i] = Integer.max(historyProfit[i-1],prices[i]-valley);
+                }
             }
-            int[] profit = new int[prices.length];
-            profit[0] = 0;
-            int minPrice = prices[0];
-            for (int i = 1; i < prices.length; i++) {
-                profit[i] = Math.max(profit[i - 1], prices[i] - minPrice);
-                minPrice = Math.min(minPrice, prices[i]);
-            }
-            int maxPrice = prices[prices.length - 1];
-            int maxProfit = profit[prices.length - 1];
-            for (int i = prices.length - 2; i > 0; i--) {
-                maxProfit = Math.max(maxProfit, profit[i - 1] + maxPrice
-                        - prices[i]);
-                maxPrice = Math.max(maxPrice, prices[i]);
+
+            // backward, calculate max profit from now, and then sum with history
+            for (int i = len-1; i>=0; --i)
+            {
+                peak = Integer.max(peak, prices[i]);
+                if (i<len-1)
+                {
+                    futureProfit[i] = Integer.max(futureProfit[i+1],peak-prices[i]);
+                }
+                maxProfit = Integer.max(maxProfit,historyProfit[i]+futureProfit[i]);
             }
             return maxProfit;
+
         }
     }
 
