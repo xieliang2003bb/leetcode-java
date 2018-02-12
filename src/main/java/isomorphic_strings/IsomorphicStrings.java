@@ -1,32 +1,51 @@
 package isomorphic_strings;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class IsomorphicStrings {
 
     public class Solution {
-        public boolean isIsomorphic(String s, String t) {
-            Map<Character, Character> mapping = new HashMap<Character, Character>();
-            Set<Character> mapped = new HashSet<Character>();
-            for (int i = 0; i < s.length(); i++) {
-                char c1 = s.charAt(i);
-                char c2 = t.charAt(i);
-                if (mapping.containsKey(c1)) {
-                    if (mapping.get(c1) != c2) {
-                        return false;
-                    }
-                } else {
-                    if (mapped.contains(c2)) {
-                        return false;
-                    }
-                    mapped.add(c2);
-                    mapping.put(c1, c2);
-                }
+        public boolean isIsomorphic(String str1, String str2) {
+            if (str1 == null || str2 == null) {
+                return false;
             }
-            return true;
+            else if (str1.length() != str2.length()) {
+                return false;
+            }
+            else if (str1.length() < 2) {
+                // lengths are equal; empty string & 1 character strings are isomorphic
+                return true;
+            }
+            else {
+                char[] str1Chars = str1.toCharArray();
+                char[] str2Chars = str2.toCharArray();
+
+                Map<Character, Character> isoMap = new HashMap<Character, Character>();
+                Map<Character, Character> isoMapRev = new HashMap<Character, Character>();
+
+
+                int length = str1Chars.length;
+                for (int index = 0; index < length; index++) {
+
+                    Character aCharacterFromFirstWord = str1Chars[index];
+                    Character aCharacterFromSecondWord = str2Chars[index];
+
+                    if (isoMap.containsKey(aCharacterFromFirstWord)) {
+                        if (!isoMap.get(aCharacterFromFirstWord).equals(aCharacterFromSecondWord)) {
+                            return false;
+                        }
+                    }
+                    else if (isoMapRev.containsKey(aCharacterFromSecondWord)) {
+                        return false;
+                    } else {
+                        isoMap.put(aCharacterFromFirstWord, aCharacterFromSecondWord);
+                        isoMapRev.put(aCharacterFromSecondWord, aCharacterFromFirstWord);
+                    }
+                }
+                return true;
+            }
+
         }
     }
 }
