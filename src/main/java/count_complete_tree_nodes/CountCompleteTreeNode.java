@@ -23,7 +23,7 @@ public class CountCompleteTreeNode {
             if (root == null) return 0;
             return 1 + rightHeight(root.right);
         }
-        
+
     }
 
     public static class UnitTest {
