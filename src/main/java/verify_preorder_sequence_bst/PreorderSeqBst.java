@@ -26,11 +26,25 @@ public class PreorderSeqBst {
         }
 
 
+        public boolean verifyPreorderRecursive(List<Integer> preorder) {
+            return helper(preorder, 0, preorder.size() - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+
+        boolean helper(List<Integer> preorder, int start, int end, int lower, int upper) {
+            if (start > end) return true;
+            int val = preorder.get(start), i = 0;
+            if (val <= lower || val >= upper) return false;
+            for (i = start + 1; i <= end; ++i) {
+                if (preorder.get(i) >= val) break;
+            }
+            return helper(preorder, start + 1, i - 1, lower, val) && helper(preorder, i, end, val, upper);
+        }
+
     }
 
     public static void main(String[] args) {
         Solution sol = new Solution();
-        boolean res = sol.verifyPreorder(new ArrayList<Integer>(Arrays.asList(5, 2, 1, 3, 6, 8, 7)));
+        boolean res = sol.verifyPreorderRecursive(new ArrayList<Integer>(Arrays.asList(5, 2, 1, 3, 6, 8, 7)));
         System.out.println("result is " + res);
     }
 
