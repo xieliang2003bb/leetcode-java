@@ -28,14 +28,7 @@ public class _3SumSmaller {
         }
     };
 
-
-
-}
-
     public class UnitTest {
-
-
-
 
     }
 
