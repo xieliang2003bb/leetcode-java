@@ -26,11 +26,6 @@ public class BinaryTreePaths {
                 if (root.right != null) dfs(root.right, out + "->", res);
             }  // out is not string &
         }
-
-
-
-
-
     }
 
     public static void main(String[] args) {
