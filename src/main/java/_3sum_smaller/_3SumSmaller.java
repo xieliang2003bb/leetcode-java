@@ -9,7 +9,7 @@ public class _3SumSmaller {
 
     public class Solution {
 
-        int threeSumSmaller(int[] nums, int target) {
+        public int threeSumSmaller(int[] nums, int target) {
             if (nums.length < 3) return 0;
             int res = 0;
             Arrays.sort(nums);

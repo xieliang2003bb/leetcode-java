@@ -9,7 +9,7 @@ import java.util.List;
 public class UglyNumberII {
 
     public class Solution {
-        int nthUglyNumber(int n) {
+        public int nthUglyNumber(int n) {
             List<Integer> res = new ArrayList<>();
             res.add(1);
             int i2 = 0, i3 = 0, i5 = 0;
