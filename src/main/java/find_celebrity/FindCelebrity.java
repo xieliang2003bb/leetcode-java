@@ -8,7 +8,8 @@ public class FindCelebrity {
     public class Solution {
 
         private boolean knows(int a, int b) {
-            return true;  // it varies
+            // ...
+            return true;
         }
 
         public int findCelebrity(int n) {
