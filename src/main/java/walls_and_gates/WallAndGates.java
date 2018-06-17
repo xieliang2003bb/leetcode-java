@@ -34,6 +34,6 @@ public class WallAndGates {
     }
 
     public class UnitTest {
-        
+
     }
 }
