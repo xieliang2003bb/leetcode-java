@@ -42,6 +42,4 @@ public class UniqWordAbbrev {
         System.out.println(u.isUnique("make"));
 
     }
-
-
 }
