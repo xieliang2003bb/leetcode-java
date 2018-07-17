@@ -33,7 +33,7 @@ public class SentenceSimilarity {
     public static void main(String[] args) {
         SentenceSimilarity ss = new SentenceSimilarity();
         String[] words1 = {"great", "acting", "skills"};
-        String[] words2 = {"fine","drama", "talent"};
+        String[] words2 = {"fine", "drama", "talent"};
         List<Pair<String, String>> pairs = new ArrayList<>();
         pairs.add(new Pair<>("great", "fine"));
         pairs.add(new Pair<>("acting", "drama"));
