@@ -1,4 +1,4 @@
-package encode_decode_strings;
+package encode_decode_tinyurl;
 
 import java.util.HashMap;
 import java.util.Map;
