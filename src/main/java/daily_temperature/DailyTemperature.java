@@ -26,6 +26,6 @@ public class DailyTemperature {
     }
 
     public class UnitTest {
-        
+
     }
 }
