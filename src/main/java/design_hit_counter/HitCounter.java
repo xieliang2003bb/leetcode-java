@@ -26,5 +26,5 @@ public class HitCounter {
         }
         return q.size();
     }
-    
+
 }
