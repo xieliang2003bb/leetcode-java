@@ -11,7 +11,7 @@ public class BeautifulArrangement {
             int[] res = {0};
             int[] visited = new int[N + 1];
             helper(N, visited, 1, res);
-            return res;
+            return res[0];
         }
         void helper(int N, int[] visited, int pos, int[] res) {
             if (pos > N) {
