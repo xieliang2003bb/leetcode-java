@@ -6,6 +6,8 @@ import java.util.Map;
 /**
  * Created by lxie on 7/25/18.
  */
+
+/* time limit exceeds */
 public class SortCharsByFrequency {
 
     public String frequencySort(String s) {
