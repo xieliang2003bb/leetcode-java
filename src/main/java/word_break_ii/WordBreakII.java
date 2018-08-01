@@ -50,6 +50,6 @@ public class WordBreakII {
         Set<String> dict = new HashSet<>(Arrays.asList("cat", "cats", "and", "sand", "dog"));
         Solution sol = new Solution();
         System.out.println(sol.wordBreak("catsanddog", dict));
-        
+
     }
 }

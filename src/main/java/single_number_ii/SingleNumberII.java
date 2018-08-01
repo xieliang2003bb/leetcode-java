@@ -3,22 +3,16 @@ package single_number_ii;
 public class SingleNumberII {
 
     public class Solution {
-        public int singleNumber(int[] A) {
-            int[] bits = new int[32];
-            for (int a : A) {
-                for (int i = 0; i < 32; i++) {
-                    if ((a & (1 << i)) != 0) {
-                        bits[i]++;
-                    }
-                }
+        public int singleNumber(int[] nums) {
+            int one = 0, two = 0, three = 0;
+            for (int i = 0; i < nums.length; ++i) {
+                two |= one & nums[i];
+                one ^= nums[i];
+                three = one & two;
+                one &= ~three;
+                two &= ~three;
             }
-            int ans = 0;
-            for (int i = 0; i < 32; i++) {
-                if (bits[i] % 3 == 1) {
-                    ans |= (1 << i);
-                }
-            }
-            return ans;
+            return one;
         }
     }
 
