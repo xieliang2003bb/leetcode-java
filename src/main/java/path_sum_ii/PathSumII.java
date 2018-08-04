@@ -1,39 +1,32 @@
 package path_sum_ii;
 
-import java.util.ArrayList;
-
 import common.TreeNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PathSumII {
 
     public class Solution {
-        public ArrayList<ArrayList<Integer>> pathSum(TreeNode root, int sum) {
-            ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
-            if (root != null) {
-                pathSum(root, sum, new ArrayList<Integer>(), ans);
-            }
-            return ans;
+
+        public List<List<Integer>> pathSum(TreeNode root, int sum) {
+            List<List<Integer>> res = new ArrayList<>();
+            List<Integer> out = new ArrayList<>();
+            helper(root, sum, out, res);
+            return res;
         }
 
-        private void pathSum(TreeNode root, int sum, ArrayList<Integer> nodes,
-                ArrayList<ArrayList<Integer>> ans) {
-            if (root.left == null && root.right == null) {
-                if (root.val == sum) {
-                    ArrayList<Integer> temp = new ArrayList<Integer>(nodes);
-                    temp.add(root.val);
-                    ans.add(temp);
-                }
-                return;
+        private void helper(TreeNode node, int sum, List<Integer> out, List<List<Integer>> res) {
+            if (node == null) return;
+            out.add(node.val);
+            if (sum == node.val && node.left == null && node.right == null) {
+                res.add(new ArrayList<>(out));  // do not use the same reference
             }
-            nodes.add(root.val);
-            if (root.left != null) {
-                pathSum(root.left, sum - root.val, nodes, ans);
-            }
-            if (root.right != null) {
-                pathSum(root.right, sum - root.val, nodes, ans);
-            }
-            nodes.remove(nodes.size() - 1);
+            helper(node.left, sum - node.val, out, res);
+            helper(node.right, sum - node.val, out, res);
+            out.remove(out.size()-1); // back-track to remove current
         }
+
     }
 
     public static class UnitTest {
