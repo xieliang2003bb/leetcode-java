@@ -1,34 +1,28 @@
 package construct_binary_tree_from_preorder_and_inorder_traversal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import common.TreeNode;
+
+import java.util.List;
 
 public class ConstructBinaryTreefromPreorderandInorderTraversal {
 
     public class Solution {
-        private TreeNode buildTree(int[] preorder, int b1,
-                Map<Integer, Integer> inorderNodes, int b2, int len) {
-            if (len == 0) {
-                return null;
+        TreeNode buildTree(List<Integer> preorder, List<Integer> inorder) {
+            return buildTree(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);
+        }
+        TreeNode buildTree(List<Integer> preorder, int pLeft, int pRight,
+                           List<Integer> inorder, int iLeft, int iRight) {
+            if (pLeft > pRight || iLeft > iRight) return null;
+            int i = 0;
+            for (i = iLeft; i <= iRight; ++i) {
+                if (preorder.get(pLeft) == inorder.get(i)) break;
             }
-            TreeNode node = new TreeNode(preorder[b1]);
-            int i = inorderNodes.get(node.val);
-            node.left = buildTree(preorder, b1 + 1, inorderNodes, b2, i - b2);
-            node.right = buildTree(preorder, b1 + 1 + i - b2, inorderNodes,
-                    i + 1, len - i + b2 - 1);
-            return node;
+            TreeNode cur = new TreeNode(preorder.get(pLeft));
+            cur.left = buildTree(preorder, pLeft + 1, pLeft + i - iLeft, inorder, iLeft, i - 1);
+            cur.right = buildTree(preorder, pLeft + i - iLeft + 1, pRight, inorder, i + 1, iRight);
+            return cur;
         }
 
-        public TreeNode buildTree(int[] preorder, int[] inorder) {
-            assert (preorder != null && inorder != null && preorder.length == inorder.length);
-            Map<Integer, Integer> inorderNodes = new HashMap<Integer, Integer>();
-            for (int i = 0; i < inorder.length; i++) {
-                inorderNodes.put(inorder[i], i);
-            }
-            return buildTree(preorder, 0, inorderNodes, 0, inorder.length);
-        }
     }
 
     public static class UnitTest {
