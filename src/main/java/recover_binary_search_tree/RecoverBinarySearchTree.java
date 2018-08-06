@@ -4,50 +4,44 @@ import common.TreeNode;
 
 public class RecoverBinarySearchTree {
 
-    public class Solution {
+    public class Solution {    // O(1) space
         public void recoverTree(TreeNode root) {
-            TreeNode first = null;
-            TreeNode second = null;
-            TreeNode p = root;
-            TreeNode pre = null;
-            while (p != null) {
-                if (p.left == null) {
-                    if (pre != null && pre.val > p.val) {
-                        if (first == null) {
-                            first = pre;
-                            second = p;
-                        } else {
-                            second = p;
-                        }
+            TreeNode first = null, second = null, parent = null;
+            TreeNode cur, pre;
+            cur = root;
+            while (cur != null) {
+                if (cur.left == null) {
+                    if (parent != null && parent.val > cur.val) {
+                        if (first == null) first = parent;
+                        second = cur;
                     }
-                    pre = p;
-                    p = p.right;
+                    parent = cur;
+                    cur = cur.right;
                 } else {
-                    TreeNode temp = p.left;
-                    while (temp.right != null && temp.right != p) {
-                        temp = temp.right;
-                    }
-                    if (temp.right == null) {
-                        temp.right = p;
-                        p = p.left;
+                    pre = cur.left;
+                    while (pre.right != null && pre.right != cur) pre = pre.right;
+                    if (pre.right == null) {
+                        pre.right = cur;
+                        cur = cur.left;
                     } else {
-                        if (pre != null && pre.val > p.val) {
-                            if (first == null) {
-                                first = pre;
-                                second = p;
-                            } else {
-                                second = p;
-                            }
+                        pre.right = null;
+                        if (parent.val > cur.val) {
+                            if (first == null) first = parent;
+                            second = cur;
                         }
-                        temp.right = null;
-                        pre = p;
-                        p = p.right;
+                        parent = cur;
+                        cur = cur.right;
                     }
                 }
             }
-            int temp = first.val;
-            first.val = second.val;
-            second.val = temp;
+            if (first != null && second != null) swap(first, second);
+        }
+
+
+        private void swap(TreeNode first, TreeNode second) {
+            int temp = second.val;
+            second.val = first.val;
+            first.val = temp;
         }
     }
 
