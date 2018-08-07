@@ -1,53 +1,31 @@
 package restore_ip_addresses;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RestoreIPAddresses {
 
     public class Solution {
-        private String toAddr(ArrayList<Integer> solution) {
-            String addr = "";
-            addr += solution.get(0);
-            addr += ".";
-            addr += solution.get(1);
-            addr += ".";
-            addr += solution.get(2);
-            addr += ".";
-            addr += solution.get(3);
-            return addr;
+
+        public List<String> restoreIpAddresses(String s) {
+            List<String> res = new ArrayList<>();
+            helper(s, 0, "", res);
+            return res;
         }
 
-        private void search(String s, int begin, ArrayList<Integer> solution,
-                ArrayList<String> solutions) {
-            if (begin == s.length() && solution.size() == 4) {
-                solutions.add(toAddr(solution));
-                return;
-            }
-            if (s.length() - begin > (4 - solution.size()) * 3) {
-                return;
-            }
-            if (s.length() - begin < 4 - solution.size()) {
-                return;
-            }
-            int num = 0;
-            for (int i = begin; i < Math.min(begin + 3, s.length()); i++) {
-                num = num * 10 + s.charAt(i) - '0';
-                if (num < 256) {
-                    solution.add(num);
-                    search(s, i + 1, solution, solutions);
-                    solution.remove(solution.size() - 1);
-                }
-                if (num == 0) {
-                    break;
+        private void helper(String s, int n, String out, List<String> res) {
+            if (n == 4) {
+                if (s.isEmpty()) res.add(out);
+            } else {
+                for (int k = 1; k < 4; ++k) {
+                    if (s.length() < k) break;
+                    int val = Integer.parseInt(s.substring(0, k));
+                    if (val > 255 || k != Integer.toString(val).length()) continue;
+                    helper(s.substring(k), n + 1, out + s.substring(0, k) + (n == 3 ? "" : "."), res);
                 }
             }
         }
 
-        public ArrayList<String> restoreIpAddresses(String s) {
-            ArrayList<String> solutions = new ArrayList<String>();
-            search(s, 0, new ArrayList<Integer>(), solutions);
-            return solutions;
-        }
     }
 
     public static class UnitTest {
