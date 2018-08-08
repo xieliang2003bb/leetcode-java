@@ -5,42 +5,25 @@ import common.ListNode;
 public class PartitionList {
 
     public class Solution {
-        public ListNode partition(ListNode head, int x) {
-            ListNode lessHead = null;
-            ListNode lessTail = null;
-            ListNode greaterHead = null;
-            ListNode greaterTail = null;
-            ListNode p = head;
-            while (p != null) {
-                if (p.val < x) {
-                    if (lessHead == null) {
-                        lessHead = p;
-                    } else {
-                        lessTail.next = p;
-                    }
-                    lessTail = p;
+        ListNode partition(ListNode head, int x) {
+            if (head == null) return head;
+            ListNode dummy = new ListNode(-1);
+            ListNode newDummy = new ListNode(-1);
+
+            dummy.next = head;
+            ListNode cur = dummy, p = newDummy;
+            while (cur.next != null) {
+                if (cur.next.val < x) {
+                    p.next = cur.next;
+                    p = p.next;
+                    cur.next = cur.next.next;
+                    p.next = null;
                 } else {
-                    if (greaterHead == null) {
-                        greaterHead = p;
-                    } else {
-                        greaterTail.next = p;
-                    }
-                    greaterTail = p;
+                    cur = cur.next;
                 }
-                p = p.next;
             }
-            if (lessHead == null) {
-                if (greaterTail != null) {
-                    greaterTail.next = null;
-                }
-                return greaterHead;
-            } else {
-                lessTail.next = greaterHead;
-                if (greaterTail != null) {
-                    greaterTail.next = null;
-                }
-                return lessHead;
-            }
+            p.next = dummy.next;
+            return newDummy.next;
         }
     }
 
