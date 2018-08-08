@@ -2,29 +2,28 @@ package subsets_ii;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SubsetsII {
 
     public class Solution {
-        public ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
-            Arrays.sort(num);
-            ArrayList<ArrayList<Integer>> subsets = new ArrayList<ArrayList<Integer>>();
-            subsets.add(new ArrayList<Integer>());
-            int last = 1;
-            for (int i = 0; i < num.length; i++) {
-                int start = 0;
-                if (i != 0 && num[i] == num[i - 1]) {
-                    start = last;
-                }
-                last = subsets.size();
-                for (int j = start; j < last; j++) {
-                    ArrayList<Integer> subset = new ArrayList<Integer>(
-                            subsets.get(j));
-                    subset.add(num[i]);
-                    subsets.add(subset);
-                }
+
+        public List<List<Integer>> subsetsWithDup(int[] nums) {
+            List<List<Integer>> res = new ArrayList<>();
+            List<Integer> out = new ArrayList<>();
+            Arrays.sort(nums);
+            getSubsets(nums, 0, out, res);
+            return res;
+        }
+
+        private void getSubsets(int[] nums, int pos, List<Integer> out, List<List<Integer>> res) {
+            res.add(new ArrayList<>(out));
+            for (int i = pos; i < nums.length; ++i) {
+                out.add(nums[i]);
+                getSubsets(nums, i + 1, out, res);
+                out.remove(out.size()-1);
+                while (i + 1 < nums.length && nums[i] == nums[i+1]) ++i;
             }
-            return subsets;
         }
     }
 
