@@ -6,41 +6,20 @@ public class RemoveDuplicatesfromSortedListII {
 
     public class Solution {
         public ListNode deleteDuplicates(ListNode head) {
-            if (head == null) {
-                return null;
+            if (head == null || head.next == null) return head;
+
+            ListNode start = new ListNode(0);
+            start.next = head;
+            ListNode pre = start;
+            while (pre.next != null) {
+                ListNode cur = pre.next;
+                while (cur.next != null && cur.next.val == cur.val) cur = cur.next;
+                if (cur != pre.next) pre.next = cur.next; // need to delete nodes
+                else pre = pre.next;
             }
-            ListNode pre = null;
-            int count = 1;
-            ListNode p = head;
-            while (p.next != null) {
-                if (p.next.val == p.val) {
-                    count++;
-                } else if (count == 1) {
-                    if (pre == null) {
-                        head = p;
-                    }
-                    pre = p;
-                } else {
-                    if (pre != null) {
-                        pre.next = p.next;
-                    }
-                    count = 1;
-                }
-                p = p.next;
-            }
-            if (count == 1) {
-                if (pre == null) {
-                    return p;
-                } else {
-                    return head;
-                }
-            }
-            if (pre == null) {
-                return null;
-            }
-            pre.next = null;
-            return head;
+            return start.next;
         }
+
     }
 
     public static class UnitTest {
