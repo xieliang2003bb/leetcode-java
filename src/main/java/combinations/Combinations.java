@@ -1,31 +1,30 @@
 package combinations;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Combinations {
 
     public class Solution {
 
-        private void search(int start, int end, int k,
-                ArrayDeque<Integer> queue, ArrayList<ArrayList<Integer>> ans) {
-            if (k == 0) {
-                ans.add(new ArrayList<Integer>(queue));
-                return;
-            }
+        public List<List<Integer>> combine(int n, int k) {
+            List<List<Integer> > res = new ArrayList<>();
+            List<Integer> out = new ArrayList<>();
+            combineDFS(n, k, 1, out, res);
+            return res;
+        }
 
-            for (int i = start; i <= end - k + 1; i++) {
-                queue.offerLast(i);
-                search(i + 1, end, k - 1, queue, ans);
-                queue.removeLast();
+        private void combineDFS(int n, int k, int level, List<Integer> out, List<List<Integer> > res) {
+            if (out.size() == k) res.add(new ArrayList<>(out));
+            else {
+                for (int i = level; i <= n; ++i) {
+                    out.add(i);
+                    combineDFS(n, k, i + 1, out, res);
+                    out.remove(out.size()-1);
+                }
             }
         }
 
-        public ArrayList<ArrayList<Integer>> combine(int n, int k) {
-            ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
-            search(1, n, k, new ArrayDeque<Integer>(), ans);
-            return ans;
-        }
     }
 
     public static class UnitTest {
