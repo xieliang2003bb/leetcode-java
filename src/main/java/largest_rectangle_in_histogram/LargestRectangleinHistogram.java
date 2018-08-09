@@ -1,32 +1,28 @@
 package largest_rectangle_in_histogram;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class LargestRectangleinHistogram {
 
     public class Solution {
         public int largestRectangleArea(int[] height) {
-            int maxArea = 0;
-            Deque<Integer> p = new ArrayDeque<Integer>();
-            int i = 0;
-            while (i < height.length) {
-                if (p.isEmpty() || height[p.peekLast()] <= height[i]) {
-                    p.offerLast(i++);
+            int res = 0;
+            List<Integer> heights = Arrays.stream(height).boxed().collect(Collectors.toList());;
+            heights.add(0);
+            Stack<Integer> st = new Stack<>();
+            for (int i = 0; i < heights.size(); ++i) {
+                if (st.empty() || heights.get(st.peek()) < heights.get(i)) {
+                    st.push(i);
                 } else {
-                    int pos = p.removeLast();
-                    maxArea = Math.max(maxArea,
-                            (p.isEmpty() ? i : i - p.peekLast() - 1)
-                                    * height[pos]);
+                    int cur = st.peek(); st.pop();
+                    res = Math.max(res, heights.get(cur) * (st.empty() ? i : (i - st.peek() - 1)));
+                    --i;
                 }
             }
-            while (!p.isEmpty()) {
-                int pos = p.removeLast();
-                maxArea = Math.max(maxArea, (p.isEmpty() ? i : i - p.peekLast()
-                        - 1)
-                        * height[pos]);
-            }
-            return maxArea;
+            return res;
         }
     }
 
