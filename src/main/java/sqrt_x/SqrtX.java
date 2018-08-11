@@ -5,7 +5,7 @@ public class SqrtX {
     public class Solution {
 
         public int SqrtX(int x) {
-        long left = 0, right = (x / 2) + 1;
+            long left = 0, right = (x / 2) + 1;
             while (left <= right) {
             long mid = (left + right) / 2;
             long sq = mid * mid;
