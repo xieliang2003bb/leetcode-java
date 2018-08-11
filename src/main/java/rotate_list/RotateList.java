@@ -5,43 +5,33 @@ import common.ListNode;
 public class RotateList {
 
     public class Solution {
-        public ListNode rotateRight(ListNode head, int n) {
-            if (head == null) {
-                return head;
+        public ListNode rotateRight(ListNode head, int k) {
+            if (head == null) return null;
+            int n = 0;
+            ListNode cur = head;
+            while (cur != null) {
+                ++n;
+                cur = cur.next;
             }
-            int k = n;
-            int listSize = 0;
-            ListNode end = head;
-            while (k > 0) {
-                end = end.next;
-                k--;
-                listSize++;
-                if (end == null) {
-                    k = n % listSize;
-                    end = head;
-                    while (k > 0) {
-                        end = end.next;
-                        k--;
-                    }
-                    break;
-                }
+            k %= n;
+            ListNode fast = head, slow = head;
+            for (int i = 0; i < k; ++i) {
+                if (fast != null) fast = fast.next;
             }
-            if (head == end) {
-                return head;
+            if (fast == null) return head;
+            while (fast.next != null) {
+                fast = fast.next;
+                slow = slow.next;
             }
-            ListNode start = head;
-            while (end.next != null) {
-                end = end.next;
-                start = start.next;
-            }
-            end.next = head;
-            head = start.next;
-            start.next = null;
-            return head;
+            fast.next = head;
+            fast = slow.next;
+            slow.next = null;
+            return fast;
         }
-    }
 
-    public static class UnitTest {
 
+        public class UnitTest {
+
+        }
     }
 }
