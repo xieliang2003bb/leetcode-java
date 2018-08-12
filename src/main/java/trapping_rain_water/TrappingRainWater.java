@@ -3,34 +3,21 @@ package trapping_rain_water;
 public class TrappingRainWater {
 
     public class Solution {
-        public int trap(int[] A) {
-            if (A.length == 0) {
-                return 0;
+        public int trap(int[] height) {
+            int res = 0, mx = 0, n = height.length;
+            int[] dp = new int[n];
+            for (int i = 0; i < n; ++i) {
+                dp[i] = mx;
+                mx = Math.max(mx, height[i]);
             }
-            int maxIndex = 0;
-            for (int i = 1; i < A.length; i++) {
-                if (A[i] > A[maxIndex]) {
-                    maxIndex = i;
-                }
+            mx = 0;
+            for (int i = n - 1; i >= 0; --i) {
+                dp[i] = Math.min(dp[i], mx);
+                mx = Math.max(mx, height[i]);
+                if (dp[i] > height[i]) res += dp[i] - height[i];
             }
-            int height = A[0];
-            int water = 0;
-            for (int i = 1; i < maxIndex; i++) {
-                if (A[i] > height) {
-                    height = A[i];
-                } else {
-                    water += height - A[i];
-                }
-            }
-            height = A[A.length - 1];
-            for (int i = A.length - 2; i > maxIndex; i--) {
-                if (A[i] > height) {
-                    height = A[i];
-                } else {
-                    water += height - A[i];
-                }
-            }
-            return water;
+            return res;
+
         }
     }
 
