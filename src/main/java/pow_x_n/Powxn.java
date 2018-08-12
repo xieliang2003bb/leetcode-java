@@ -3,29 +3,18 @@ package pow_x_n;
 public class Powxn {
 
     public class Solution {
-        public double pow(double x, int n) {
-            boolean overflow = false;
-            if (n == Integer.MIN_VALUE) {
-                overflow = true;
-                n++;
-            }
-            boolean negative = n < 0;
-            n = Math.abs(n);
-            double re = 1;
-            double times = x;
-            while (n != 0) {
-                if ((n & 1) == 1) {
-                    re *= times;
-                }
-                times *= times;
-                n >>= 1;
-            }
-            if (negative) {
-                return overflow ? 1 / (re * x) : 1 / re;
-            } else {
-                return re;
-            }
+        public double myPow(double x, int n) {
+            if (n < 0) return 1 / power(x, -n);
+            return power(x, n);
         }
+
+        private double power(double x, int n) {
+            if (n == 0) return 1;
+            double half = power(x, n / 2);
+            if (n % 2 == 0) return half * half;
+            return x * half * half;
+        }
+
     }
 
     public static class UnitTest {
