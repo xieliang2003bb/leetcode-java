@@ -1,87 +1,30 @@
 package multiply_strings;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class MultiplyStrings {
 
     public class Solution {
 
-        private List<Integer> multiply(List<Integer> l1, List<Integer> l2) {
-            List<Integer> result = new ArrayList<Integer>();
-            for (int offset = 0; offset < l2.size(); offset++) {
-                if (l2.get(offset) != 0) {
-                    List<Integer> temp = multiplyDigit(l1, l2.get(offset));
-                    result = add(temp, result, offset);
-                }
-            }
-            return result;
-        }
-
-        private List<Integer> add(List<Integer> l1, List<Integer> l2, int offset) {
-            List<Integer> result = new ArrayList<Integer>();
-            int index = 0;
-            while (index < offset) {
-                if (index < l2.size()) {
-                    result.add(l2.get(index));
-                } else {
-                    result.add(0);
-                }
-                index++;
-            }
-            int carry = 0;
-            for (int i : l1) {
-                int value = i + carry + (index < l2.size() ? l2.get(index) : 0);
-                result.add(value % 10);
-                carry = value / 10;
-                index++;
-            }
-            if (carry != 0) {
-                result.add(carry);
-            }
-            return result;
-        }
-
-        private List<Integer> toList(String s) {
-            List<Integer> result = new ArrayList<Integer>();
-            for (int i = s.length() - 1; i >= 0; i--) {
-                result.add(s.charAt(i) - '0');
-            }
-            return result;
-        }
-
-        private String toString(List<Integer> l) {
-            StringBuilder builder = new StringBuilder();
-            int i = l.size() - 1;
-            for (; i >= 0; i--) {
-                if (l.get(i) != 0) {
-                    break;
-                }
-            }
-            for (; i >= 0; i--) {
-                builder.append(l.get(i));
-            }
-            if (builder.length() == 0) {
-                return "0";
-            }
-            return builder.toString();
-        }
-
-        private List<Integer> multiplyDigit(List<Integer> l, int digit) {
-            List<Integer> result = new ArrayList<Integer>();
-            int carry = 0;
-            for (int i : l) {
-                result.add((i * digit + carry) % 10);
-                carry = (i * digit + carry) / 10;
-            }
-            if (carry != 0) {
-                result.add(carry);
-            }
-            return result;
-        }
-
         public String multiply(String num1, String num2) {
-            return toString(multiply(toList(num1), toList(num2)));
+            if (num1.charAt(0) == '0' || num2.charAt(0) == '0') return "0";
+            int n1 = num1.length(), n2 = num2.length(), n = (n1 + n2);
+            int[] r = new int[n];
+            char[] s = new char[n];
+            Arrays.fill(s, '0');
+
+            for (int i = 0; i < n1; ++i) {
+                for (int j = 0; j < n2; ++j) {
+                    r[i + j + 1] += (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                }
+            }
+
+            for (int i = n - 1; i > 0; --i) {
+                if (r[i] > 9) r[i - 1] += r[i] / 10;
+                s[i] += r[i] % 10;
+            }
+            s[0] += r[0];
+            return s[0] == '0' ? new String(s).substring(1) : new String(s);
         }
     }
 
