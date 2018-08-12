@@ -1,60 +1,51 @@
 package n_queens;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class NQueens {
 
     public class Solution {
-        private boolean isValid(int row, int column, ArrayDeque<Integer> columns) {
-            int r = 0;
-            for (int c : columns) {
-                if (c == column || Math.abs(c - column) == Math.abs(r - row)) {
+        public List<List<String>> solveNQueens(int n) {
+            List<List<String> > res = new ArrayList<>();
+            int[] pos = new int[n];
+            for(int i = 0; i < n; ++i) pos[i] = -1;
+            solveNQueensDFS(pos, 0, res);
+            return res;
+        }
+
+        private void solveNQueensDFS(int[] pos, int row, List<List<String> > res) {
+            int n = pos.length;
+            if (row == n) {
+                List<String> out = new ArrayList<>();
+                for (int i = 0; i < n; ++i) {
+                    char[] s = new char[n];
+                    Arrays.fill(s, '.');
+                    s[pos[i]] = 'Q';
+                    out.add(new String(s));
+                }
+                res.add(new ArrayList<>(out));
+            } else {
+                for (int col = 0; col < n; ++col) {
+                    if (isValid(pos, row ,col)) {
+                        pos[row] = col;
+                        solveNQueensDFS(pos, row + 1, res);
+                        pos[row] = -1;  // back-tracking
+                    }
+                }
+            }
+        }
+
+        private boolean isValid(int[] pos, int row, int col) {
+            for (int i = 0; i < row; ++i) {
+                if (col == pos[i] || Math.abs(row - i) == Math.abs(col - pos[i])) {
                     return false;
                 }
-                r++;
             }
             return true;
         }
 
-        private String[] toSolution(ArrayDeque<Integer> columns) {
-            int n = columns.size();
-            String[] s = new String[n];
-            int row = 0;
-            for (int column : columns) {
-                String line = "";
-                for (int i = 0; i < n; i++) {
-                    if (i != column) {
-                        line += '.';
-                    } else {
-                        line += 'Q';
-                    }
-                }
-                s[row++] = line;
-            }
-            return s;
-        }
-
-        private void search(int row, int n, ArrayDeque<Integer> columns,
-                ArrayList<String[]> ans) {
-            if (row == n) {
-                ans.add(toSolution(columns));
-                return;
-            }
-            for (int i = 0; i < n; i++) {
-                if (isValid(row, i, columns)) {
-                    columns.offerLast(i);
-                    search(row + 1, n, columns, ans);
-                    columns.removeLast();
-                }
-            }
-        }
-
-        public ArrayList<String[]> solveNQueens(int n) {
-            ArrayList<String[]> ans = new ArrayList<String[]>();
-            search(0, n, new ArrayDeque<Integer>(), ans);
-            return ans;
-        }
     }
 
     public static class UnitTest {

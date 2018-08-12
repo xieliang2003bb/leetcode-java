@@ -1,15 +1,17 @@
 package merge_intervals;
 
+import common.Interval;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import common.Interval;
 
 public class MergeIntervals {
 
     public class Solution {
         public ArrayList<Interval> merge(ArrayList<Interval> intervals) {
+            ArrayList<Interval> ans = new ArrayList<Interval>();
+            if (intervals.isEmpty()) return ans;
             Collections.sort(intervals, new Comparator<Interval>() {
 
                 @Override
@@ -22,24 +24,17 @@ public class MergeIntervals {
 
             });
 
-            ArrayList<Interval> ans = new ArrayList<Interval>();
-            Interval newInterval = null;
-            for (Interval i : intervals) {
-                if (newInterval == null) {
-                    newInterval = new Interval(i.start, i.end);
+            ans.add(intervals.get(0));
+            for (int i = 1; i < intervals.size(); ++i) {
+                if (ans.get(ans.size()-1).end >= intervals.get(i).start) {
+                    ans.get(ans.size()-1).end = Math.max(ans.get(ans.size()-1).end,
+                            intervals.get(i).end);
                 } else {
-                    if (newInterval.end < i.start) {
-                        ans.add(newInterval);
-                        newInterval = new Interval(i.start, i.end);
-                    } else {
-                        newInterval.end = Math.max(newInterval.end, i.end);
-                    }
+                    ans.add(new Interval(intervals.get(i).start, intervals.get(i).end));
                 }
             }
-            if (newInterval != null) {
-                ans.add(newInterval);
-            }
             return ans;
+
         }
     }
 
