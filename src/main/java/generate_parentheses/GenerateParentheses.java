@@ -1,30 +1,24 @@
 package generate_parentheses;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class GenerateParentheses {
 
     public class Solution {
-        private void generateParenthesis(ArrayList<String> ans, char[] s,
-                int left, int right, int n) {
-            if (left == n) {
-                Arrays.fill(s, left + right, n << 1, ')');
-                ans.add(new String(s));
+        public List<String> generateParenthesis(int n) {
+            List<String> res = new ArrayList<String>();
+            helper(n, n, "", res);
+            return res;
+        }
+        void helper(int left, int right, String out, List<String> res) {
+            if (left < 0 || right < 0 || left > right) return;
+            if (left == 0 && right == 0) {
+                res.add(out);
                 return;
             }
-            s[left + right] = '(';
-            generateParenthesis(ans, s, left + 1, right, n);
-            if (left > right) {
-                s[left + right] = ')';
-                generateParenthesis(ans, s, left, right + 1, n);
-            }
-        }
-
-        public ArrayList<String> generateParenthesis(int n) {
-            ArrayList<String> ans = new ArrayList<String>();
-            generateParenthesis(ans, new char[n << 1], 0, 0, n);
-            return ans;
+            helper(left - 1, right, out + "(", res);
+            helper(left, right - 1, out + ")", res);
         }
     }
 
