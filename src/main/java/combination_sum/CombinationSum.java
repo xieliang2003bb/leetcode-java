@@ -1,37 +1,31 @@
 package combination_sum;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CombinationSum {
 
     public class Solution {
-        private void search(int[] n, int index, int target,
-                ArrayDeque<Integer> s, ArrayList<ArrayList<Integer>> ans) {
-            if (target == 0) {
-                ans.add(new ArrayList<Integer>(s));
-                return;
-            }
-            if (index == n.length || target < n[index]) {
-                return;
-            }
-
-            for (int i = 0; i <= target / n[index]; i++) {
-                search(n, index + 1, target - i * n[index], s, ans);
-                s.offerLast(n[index]);
-            }
-            for (int i = 0; i <= target / n[index]; i++) {
-                s.removeLast();
-            }
+        public List<List<Integer>> combinationSum(int[] num, int target) {
+            List<List<Integer>> res = new ArrayList<>();
+            List<Integer> out = new ArrayList<>();
+            Arrays.sort(num);
+            combinationSum2DFS(num, target, 0, out, res);
+            return res;
         }
 
-        public ArrayList<ArrayList<Integer>> combinationSum(int[] candidates,
-                int target) {
-            ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
-            Arrays.sort(candidates);
-            search(candidates, 0, target, new ArrayDeque<Integer>(), ans);
-            return ans;
+        private void combinationSum2DFS(int[] num, int target, int start, List<Integer> out, List<List<Integer>> res) {
+            if (target < 0) return;
+            else if (target == 0) res.add(new ArrayList<>(out));
+            else {
+                for (int i = start; i < num.length; ++i) {
+                    if (i > start && num[i] == num[i - 1]) continue;
+                    out.add(num[i]);
+                    combinationSum2DFS(num, target - num[i], i, out, res); // allows duplicate
+                    out.remove(out.size()-1);
+                }
+            }
         }
     }
 
