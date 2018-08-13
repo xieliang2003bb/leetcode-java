@@ -1,66 +1,47 @@
 package text_justification;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TextJustification {
 
     public class Solution {
-        private void appendSpace(StringBuilder line, int space) {
-            for (int i = 0; i < space; i++) {
-                line.append(' ');
-            }
-        }
-
-        public ArrayList<String> fullJustify(String[] words, int L) {
-            ArrayList<String> ans = new ArrayList<String>();
-            if (words.length == 0) {
-                return ans;
-            }
-            int begin = 0;
-            int len = words[0].length();
-            int current = 1;
-            while (current < words.length) {
-                if (len + words[current].length() + 1 <= L) {
-                    len += words[current].length() + 1;
-                } else {
-                    int wordCount = current - begin;
-                    int padding = L - len + wordCount - 1;
-                    StringBuilder line = new StringBuilder();
-                    if (wordCount == 1) {
-                        line.append(words[begin]);
-                        appendSpace(line, padding);
-                    } else {
-                        int slotSize = padding / (wordCount - 1);
-                        int moreSlotCount = padding % (wordCount - 1);
-                        for (int i = 0; i < moreSlotCount; i++) {
-                            line.append(words[begin + i]);
-                            appendSpace(line, slotSize + 1);
-                        }
-                        for (int i = moreSlotCount; i < wordCount - 1; i++) {
-                            line.append(words[begin + i]);
-                            appendSpace(line, slotSize);
-                        }
-                        line.append(words[current - 1]);
-                    }
-                    ans.add(line.toString());
-                    begin = current;
-                    len = words[current].length();
+        public List<String> fullJustify(String[] words, int maxWidth) {
+            List<String> res = new ArrayList<>();
+            int i = 0;
+            while (i < words.length) {
+                int j = i, len = 0;
+                while (j < words.length && len + words[j].length() + j - i <= maxWidth) {
+                    len += words[j++].length();
                 }
-                current++;
+                String out = "";
+                int space = maxWidth - len;
+                for (int k = i; k < j; ++k) {
+                    out += words[k];
+                    if (space > 0) {
+                        int tmp;
+                        if (j == words.length) {
+                            if (j - k == 1) tmp = space;
+                            else tmp = 1;
+                        } else {
+                            if (j - k - 1 > 0) {
+                                if (space % (j - k - 1) == 0) tmp = space / (j - k - 1);
+                                else tmp = space / (j - k - 1) + 1;
+                            } else tmp = space;
+                        }
+                        //Strings.padEnd(out, tmp, ' ');
+                        for(int a=0; a<tmp; ++a) out += ' ';
+                        space -= tmp;
+                    }
+                }
+                res.add(out);
+                i = j;
             }
-            StringBuilder line = new StringBuilder();
-            for (int i = begin; i < words.length - 1; i++) {
-                line.append(words[i]);
-                line.append(' ');
-            }
-            line.append(words[words.length - 1]);
-            appendSpace(line, L - len);
-            ans.add(line.toString());
-            return ans;
+            return res;
         }
     }
 
-    public static class UnitTest {
+    public class UnitTest {
 
     }
 }
