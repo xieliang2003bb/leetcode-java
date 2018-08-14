@@ -7,6 +7,8 @@ public class SubstringwithConcatenationofAllWords {
 
     public class Solution {
         public ArrayList<Integer> findSubstring(String S, String[] L) {
+            ArrayList<Integer> ans = new ArrayList<Integer>();
+            if (S.isEmpty() || L.length == 0) return ans;
             HashMap<String, Integer> dict = new HashMap<String, Integer>();
             for (String l : L) {
                 Integer count = dict.get(l);
@@ -19,28 +21,25 @@ public class SubstringwithConcatenationofAllWords {
             int wordSize = L[0].length();
             int windowSize = wordSize * L.length;
 
-            ArrayList<Integer> ans = new ArrayList<Integer>();
             for (int i = 0; i <= S.length() - windowSize; i++) {
                 HashMap<String, Integer> temp = new HashMap<String, Integer>();
-                boolean skip = false;
-                for (int j = 0; j < windowSize; j += wordSize) {
+                boolean skip = false; int j = 0;
+                for (; j < windowSize; j += wordSize) {
                     String word = S.substring(i + j, i + j + wordSize);
                     Integer count = dict.get(word);
                     if (count == null) {
-                        skip = true;
                         break;
                     }
                     Integer tempCount = temp.get(word);
                     if (tempCount == null) {
                         temp.put(word, 1);
                     } else if (count == tempCount) {
-                        skip = true;
                         break;
                     } else {
                         temp.put(word, tempCount + 1);
                     }
                 }
-                if (!skip && dict.equals(temp)) {
+                if (j == windowSize) {
                     ans.add(i);
                 }
             }
