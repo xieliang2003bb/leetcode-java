@@ -4,27 +4,23 @@ public class CountandSay {
 
     public class Solution {
         public String countAndSay(int n) {
-            String ans = "1";
-            n--;
-            while (n > 0) {
-                n--;
-                StringBuilder builder = new StringBuilder();
-                int count = 1;
-                for (int i = 1; i < ans.length(); i++) {
-                    if (ans.charAt(i - 1) == ans.charAt(i)) {
-                        count++;
-                    } else {
-                        builder.append(count);
-                        builder.append(ans.charAt(i - 1));
-                        count = 1;
+            if (n <= 0) return "";
+            String res = "1";
+            while (--n != 0) {
+                String cur = "";
+                for (int i = 0; i < res.length(); ++i) {
+                    int cnt = 1;
+                    while (i + 1 < res.length() && res.charAt(i) == res.charAt(i+1)) {
+                        ++cnt;
+                        ++i;
                     }
+                    cur += Integer.toString(cnt) + res.charAt(i);
                 }
-                builder.append(count);
-                builder.append(ans.charAt(ans.length() - 1));
-                ans = builder.toString();
+                res = cur;
             }
-            return ans;
+            return res;
         }
+
     }
 
     public static class UnitTest {
