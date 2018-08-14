@@ -1,52 +1,35 @@
 package divide_two_integers;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 public class DivideTwoIntegers {
 
     public class Solution {
-        // Try to implement without long
         public int divide(int dividend, int divisor) {
-            if (divisor == 0) {
-                throw new IllegalArgumentException("divisor is 0");
-            }
-            if (divisor == Integer.MIN_VALUE) {
-                return dividend == Integer.MIN_VALUE ? 1 : 0;
-            }
-            boolean negative = (dividend > 0) ^ (divisor > 0);
-            divisor = Math.abs(divisor);
-            boolean overflow = dividend == Integer.MIN_VALUE;
-            if (overflow) {
-                dividend += divisor;
-            }
-            dividend = Math.abs(dividend);
-            int pow = divisor;
-            while ((pow << 1) > 0 && dividend >= (pow << 1)) {
-                pow <<= 1;
-            }
-            int ans = 0;
-            while (pow >= divisor) {
-                ans <<= 1;
-                if (dividend >= pow) {
-                    dividend -= pow;
-                    ans += 1;
+            long m = Math.abs((long)dividend), n = Math.abs((long)divisor), res = 0;
+                if (m < n) return 0;
+                while (m >= n) {
+                    long t = n, p = 1;
+                    while (m > (t << 1)) {
+                        t <<= 1;
+                        p <<= 1;
+                    }
+                    res += p;
+                    m -= t;
                 }
-                pow >>= 1;
+                if ((dividend < 0) ^ (divisor < 0)) res = -res;
+                return (int) (res > Integer.MAX_VALUE ? Integer.MAX_VALUE : res);  // -INT_MIN could be invalid
             }
-            if (overflow) {
-                ans += 1;
-            }
-            return negative ? -ans : ans;
+
         }
-    }
 
     public static class UnitTest {
         @Test
         public void testDivideWithOverflow() {
             Solution s = new DivideTwoIntegers().new Solution();
-            assertEquals(Integer.MIN_VALUE, s.divide(Integer.MIN_VALUE, 1));
+            System.out.println(s.divide(-2147483648, -1));
+
+            //assertEquals(Integer.MIN_VALUE, s.divide(Integer.MIN_VALUE, 1));
         }
     }
 }
