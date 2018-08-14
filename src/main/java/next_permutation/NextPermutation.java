@@ -3,36 +3,34 @@ package next_permutation;
 public class NextPermutation {
 
     public class Solution {
-        private void swap(int[] num, int i, int j) {
-            int temp = num[i];
-            num[i] = num[j];
-            num[j] = temp;
-        }
-
-        private void reverse(int[] num, int begin, int end) {
-            end--;
-            while (begin < end) {
-                swap(num, begin++, end--);
-            }
-        }
 
         public void nextPermutation(int[] num) {
-            if (num.length <= 1) {
-                return;
-            }
-            int i = num.length - 1;
-            while (i > 0) {
-                i--;
-                if (num[i] < num[i + 1]) {
-                    int j = num.length;
-                    while (num[--j] <= num[i]) {
+            int i, j, n = num.length;
+            for (i = n - 2; i >= 0; --i) {
+                if (num[i + 1] > num[i]) {
+                    for (j = n - 1; j >= i; --j) {
+                        if (num[j] > num[i]) break;
                     }
-                    swap(num, i, j);
-                    reverse(num, i + 1, num.length);
+                    int tmp = num[i];
+                    num[i] = num[j];
+                    num[j] = tmp;
+                    reverse(num, i + 1, num.length-1);
                     return;
                 }
             }
-            reverse(num, 0, num.length);
+            reverse(num, 0, num.length-1);
+
+        }
+
+        private void reverse(int[] a, int start, int end) {
+            if (a.length == 0 || a.length == 1) return;
+            while (start < end) {
+                int tmp = a[start];
+                a[start] = a[end];
+                a[end] = tmp;
+                start++; end--;
+            }
+
         }
     }
 
