@@ -1,29 +1,29 @@
 package longest_valid_parentheses;
 
+import java.util.Stack;
+
+import static java.lang.Math.max;
+
 public class LongestValidParentheses {
 
     public class Solution {
         public int longestValidParentheses(String s) {
-            int[] dp = new int[s.length()];
-            int max = 0;
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) == ')') {
-                    int p = i - 1;
-                    while (p >= 0) {
-                        if (s.charAt(p) == '(') {
-                            dp[i] = i - p + 1 + (p > 0 ? dp[p - 1] : 0);
-                            break;
-                        } else if (dp[p] == 0) {
-                            break;
+                int res = 0, start = 0;
+                Stack<Integer> m = new Stack<>();
+                for (int i = 0; i < s.length(); ++i) {
+                    if (s.charAt(i) == '(') m.push(i);
+                    else if (s.charAt(i) == ')') {
+                        if (m.empty()) start = i + 1;
+                        else {
+                            m.pop();
+                            res = m.empty() ? max(res, i - start + 1) : max(res, i - m.peek());
                         }
-                        p = p - dp[p];
                     }
                 }
-                max = Math.max(max, dp[i]);
+                return res;
             }
-            return max;
+
         }
-    }
 
     public static class UnitTest {
 
