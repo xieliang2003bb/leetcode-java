@@ -1,47 +1,62 @@
 package sudoku_solver;
 
+import java.util.Arrays;
+
 public class SudokuSolver {
 
     public class Solution {
-        private boolean isValid(char[][] board, int row, int column, char c) {
-            int cellRow = row - row % 3;
-            int cellColumn = column - column % 3;
-            for (int i = 0; i < 9; i++) {
-                if (board[i][column] == c || board[row][i] == c
-                        || board[cellRow + i / 3][cellColumn + i % 3] == c) {
+        public boolean solveSudoku(char[][] board){
+            for(int i = 0; i < 9; i++){
+                for(int j = 0; j < 9; j++){
+                    if(board[i][j] != '.')
+                        continue;
+                    for(char k = '1'; k <= '9'; k++){
+                        board[i][j] = k;
+                        if(checkValid(board,i,j)){
+                            if(solveSudoku(board))
+                                return true;
+                        }
+                        board[i][j] = '.';
+                    }
                     return false;
                 }
             }
             return true;
         }
 
-        private boolean search(char[][] board, int pos) {
-            while (pos < 81) {
-                if (board[pos / 9][pos % 9] == '.') {
-                    break;
+        private boolean checkValid(char[][] board, int x, int y){
+            boolean[] flags = new boolean[9];
+            for(int i = 0; i < 9; ++i)
+                if(board[x][i] >= '1' && board[x][i] <= '9'){
+                    if(!flags[board[x][i] - '1'])
+                        flags[board[x][i] - '1'] = true;
+                    else
+                        return false;
                 }
-                pos++;
-            }
-            if (pos == 81) {
-                return true;
-            }
-            int row = pos / 9;
-            int column = pos % 9;
-            for (char c = '1'; c <= '9'; c++) {
-                if (isValid(board, row, column, c)) {
-                    board[row][column] = c;
-                    if (search(board, pos + 1)) {
-                        return true;
+            Arrays.fill(flags, false);
+            for(int i = 0; i < 9; ++i)
+                if(board[i][y] >= '1' && board[i][y] <= '9'){
+                    if(!flags[board[i][y] - '1'])
+                        flags[board[i][y] - '1'] = true;
+                    else
+                        return false;
+                }
+            int xx = x/3*3;
+            int yy = y/3*3;
+            Arrays.fill(flags, false);
+            for(int i = 0; i < 3; ++i)
+                for(int j = 0; j < 3; ++j)
+                    if(board[xx+i][yy+j] >= '1' && board[xx+i][yy+j]<= '9'){
+                        if(!flags[board[xx+i][yy+j]-'1'])
+                            flags[board[xx+i][yy+j]-'1'] = true;
+                        else
+                            return false;
                     }
-                }
-            }
-            board[row][column] = '.';
-            return false;
+
+            return true;
         }
 
-        public void solveSudoku(char[][] board) {
-            search(board, 0);
-        }
+
     }
 
     public static class UnitTest {
