@@ -1,56 +1,34 @@
 package _3sum;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class _3Sum {
 
     public class Solution {
 
-        private ArrayList<Integer> makeTriplet(int a, int b, int c) {
-            ArrayList<Integer> ans = new ArrayList<Integer>();
-            ans.add(a);
-            ans.add(b);
-            ans.add(c);
-            return ans;
-        }
-
-        private void twoSum(ArrayList<ArrayList<Integer>> ans, int a,
-                int[] num, int begin) {
-            int i = begin;
-            int j = num.length - 1;
-            while (i < j) {
-                int sum = num[i] + num[j];
-                if (sum < -a) {
-                    i++;
-                } else if (sum > -a) {
-                    j--;
-                } else {
-                    ans.add(makeTriplet(a, num[i], num[j]));
-                    do {
-                        i++;
-                    } while (i < j && num[i] == num[i - 1]);
-                    do {
-                        j--;
-                    } while (i < j && num[j] == num[j + 1]);
+        public List<List<Integer>> threeSum(int[] nums) {
+            Set<List<Integer>> res = new HashSet<>();
+            Arrays.sort(nums);
+            for (int k = 0; k < nums.length; ++k) {
+                if (nums[k] > 0) break;
+                int target = 0 - nums[k];
+                int i = k + 1, j = nums.length - 1;
+                while (i < j) {
+                    if (nums[i] + nums[j] == target) {
+                        res.add(new ArrayList<>(Arrays.asList(nums[k], nums[i], nums[j])));
+                        while (i < j && nums[i] == nums[i + 1]) ++i;
+                        while (i < j && nums[j] == nums[j - 1]) --j;
+                        ++i;
+                        --j;
+                    } else if (nums[i] + nums[j] < target) ++i;
+                    else --j;
                 }
             }
-        }
-
-        public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
-            Arrays.sort(num);
-            ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
-            for (int i = 0; i < num.length - 2; i++) {
-                if (i > 0 && num[i] == num[i - 1]) {
-                    continue;
-                }
-                twoSum(ans, num[i], num, i + 1);
-            }
-            return ans;
+            return new ArrayList<>(res);
         }
     }
 
-    public static class UnitTest {
+        public static class UnitTest {
 
     }
 }
