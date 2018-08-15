@@ -1,50 +1,30 @@
 package longest_palindromic_substring;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class LongestPalindromicSubstring {
 
     public class Solution {
         public String longestPalindrome(String s) {
-            String t = "^#";
-            for (int i = 0; i < s.length(); i++) {
-                t += s.charAt(i);
-                t += '#';
+            // DP dp[i][j] -  if substr(i,j) is palindrome
+            boolean [][] dp = new boolean[s.length()][s.length()];
+            int left = 0, right = 0, len = 0;
+            for (int i = 0; i < s.length(); ++i) {
+                for (int j = 0; j < i; ++j) {
+                    dp[j][i] = (s.charAt(i) == s.charAt(j) && (i - j < 2 || dp[j + 1][i - 1] == true));
+                    if (dp[j][i] && len < i - j + 1) {
+                        len = i - j + 1;
+                        left = j;
+                        right = i;
+                    }
+                }
+                dp[i][i] = true;
             }
-            t += '$';
-
-            int[] p = new int[t.length()];
-            int id = 1;
-            p[1] = 1;
-            int rightIndex = 2;
-            for (int i = 2; i < t.length() - 1; i++) {
-                if (rightIndex > i) {
-                    p[i] = Math.min(p[2 * id - i], rightIndex - i);
-                } else {
-                    p[i] = 1;
-                }
-                while (t.charAt(i + p[i]) == t.charAt(i - p[i])) {
-                    p[i]++;
-                }
-                if (rightIndex < i + p[i]) {
-                    rightIndex = i + p[i];
-                    id = i;
-                }
-            }
-
-            int maxId = 1;
-            for (int i = 2; i < t.length() - 1; i++) {
-                if (p[maxId] < p[i]) {
-                    maxId = i;
-                }
-            }
-
-            int length = p[maxId] - 1;
-            int startIndex = (maxId - p[maxId]) / 2;
-            return s.substring(startIndex, startIndex + length);
+            return s.substring(left, right + 1);
         }
+
     }
 
     public static class UnitTest {
