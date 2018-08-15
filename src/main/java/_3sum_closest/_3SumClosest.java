@@ -1,35 +1,29 @@
 package _3sum_closest;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class _3SumClosest {
 
     public class Solution {
-        public int threeSumClosest(int[] num, int target) {
-            Arrays.sort(num);
-            int minSum = num[0] + num[1] + num[2];
-            for (int i = 0; i < num.length - 2; i++) {
-                if (i > 0 && num[i] == num[i - 1]) {
-                    continue;
-                }
-                int twoSum = target - num[i];
-                int begin = i + 1;
-                int end = num.length - 1;
-                while (begin < end) {
-                    int sum = num[begin] + num[end];
-                    if (Math.abs(twoSum - sum) < Math.abs(target - minSum)) {
-                        minSum = sum + num[i];
+        public int threeSumClosest(int[] nums, int target) {
+            int closest = nums[0] + nums[1] + nums[2];
+            int diff = Math.abs(closest - target);
+            Arrays.sort(nums);
+            for (int k = 0; k < nums.length; ++k) {
+                int i = k + 1, j = nums.length - 1;
+                while (i < j) {
+                    int sum = nums[k] + nums[i] + nums[j];
+                    int newDiff = Math.abs(sum - target);
+                    if (diff > newDiff) {
+                        diff = newDiff;
+                        closest = sum;
                     }
-                    if (sum < twoSum) {
-                        begin++;
-                    } else if (sum > twoSum) {
-                        end--;
-                    } else {
-                        return target;
-                    }
+                    if (sum < target) ++i;
+                    else --j;
+
                 }
             }
-            return minSum;
+            return closest;
         }
     }
 
