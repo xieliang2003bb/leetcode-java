@@ -1,58 +1,33 @@
 package _4sum;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class _4Sum {
 
     public class Solution {
 
-        private ArrayList<Integer> list(int... ns) {
-            ArrayList<Integer> l = new ArrayList<Integer>();
-            for (int n : ns) {
-                l.add(n);
-            }
-            return l;
-        }
-
-        private void twoSum(int[] num, int a, int b, int start, int target,
-                ArrayList<ArrayList<Integer>> quadruplets) {
-            int low = start;
-            int high = num.length - 1;
-            while (low < high) {
-                int sum = num[low] + num[high];
-                if (sum < target) {
-                    low++;
-                } else if (sum > target) {
-                    high--;
-                } else {
-                    quadruplets.add(list(a, b, num[low], num[high]));
-                    do {
-                        low++;
-                    } while (low < high && num[low] == num[low - 1]);
-                    do {
-                        high--;
-                    } while (low < high && num[high] == num[high + 1]);
-                }
-            }
-        }
-
-        public ArrayList<ArrayList<Integer>> fourSum(int[] num, int target) {
-            ArrayList<ArrayList<Integer>> quadruplets = new ArrayList<ArrayList<Integer>>();
-            Arrays.sort(num);
-            for (int i = 0; i < num.length - 3; i++) {
-                if (i != 0 && num[i] == num[i - 1]) {
-                    continue;
-                }
-                for (int j = i + 1; j < num.length - 2; j++) {
-                    if (j != i + 1 && num[j] == num[j - 1]) {
-                        continue;
+        public List<List<Integer>> fourSum(int[] nums, int target) {
+            Set<List<Integer> > res = new HashSet<>();
+            Arrays.sort(nums);
+            for (int i = 0; i < (nums.length - 3); ++i) {
+                for (int j = i + 1; j < (nums.length - 2); ++j) {
+                    int left = j + 1, right = nums.length - 1;
+                    while (left < right) {
+                        int sum = nums[i] + nums[j] + nums[left] + nums[right];
+                        if (sum == target) {
+                            List<Integer> out = new ArrayList<>();
+                            out.add(nums[i]);
+                            out.add(nums[j]);
+                            out.add(nums[left]);
+                            out.add(nums[right]);
+                            res.add(out);
+                            ++left; --right;
+                        } else if (sum < target) ++left;
+                        else --right;
                     }
-                    twoSum(num, num[i], num[j], j + 1,
-                            target - num[i] - num[j], quadruplets);
                 }
             }
-            return quadruplets;
+            return new ArrayList<>(res);
         }
     }
 
