@@ -3,40 +3,26 @@ package integer_to_roman;
 public class IntegertoRoman {
 
     public class Solution {
-
-        private final char[] symbols = new char[] { 'M', 'D', 'C', 'L', 'X',
-                'V', 'I' };
-
-        private String repeat(char c, int times) {
-            String re = "";
-            for (int i = 0; i < times; i++) {
-                re += c;
-            }
-            return re;
-        }
-
         public String intToRoman(int num) {
-            String roman = "";
-            int scala = 1000;
-            for (int i = 0; i < symbols.length; i += 2) {
-                int digit = num / scala;
-                num %= scala;
-                scala /= 10;
-                if (digit == 9) {
-                    roman += symbols[i];
-                    roman += symbols[i - 2];
-                } else if (digit >= 5) {
-                    roman += symbols[i - 1];
-                    roman += repeat(symbols[i], digit - 5);
-                } else if (digit == 4) {
-                    roman += symbols[i];
-                    roman += symbols[i - 1];
-                } else {
-                    roman += repeat(symbols[i], digit);
-                }
+
+            String res = "";
+            char roman[] = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+            int value[] = {1000, 500, 100, 50, 10, 5, 1};
+
+            for (int n = 0; n < 7; n += 2) {
+                int x = num / value[n];
+                if (x < 4) {
+                    for (int i = 1; i <= x; ++i) res += roman[n];
+                } else if (x == 4) res = res + roman[n] + roman[n - 1];
+                else if (x > 4 && x < 9) {
+                    res += roman[n - 1];
+                    for (int i = 6; i <= x; ++i) res += roman[n];
+                } else if (x == 9) res = res + roman[n] + roman[n - 2];
+                num %= value[n];
             }
-            return roman;
+            return res;
         }
+
     }
 
     public static class UnitTest {
