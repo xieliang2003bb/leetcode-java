@@ -4,20 +4,21 @@ public class ValidSudoku {
 
     public class Solution {
         public boolean isValidSudoku(char[][] board) {
-            boolean[][] rows = new boolean[9][9];
-            boolean[][] columns = new boolean[9][9];
-            boolean[][] cells = new boolean[9][9];
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
+            int m = board.length, n = board[0].length;
+            boolean[][] rows = new boolean[m][n];
+            boolean[][] columns = new boolean[m][n];
+            boolean[][] cells = new boolean[m][n];
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     if (board[i][j] == '.') {
                         continue;
                     }
-                    int num = board[i][j] - '1';
-                    if (rows[i][num] || columns[j][num]
-                            || cells[i / 3 * 3 + j / 3][num]) {
+                    int c = board[i][j] - '1';
+                    if (rows[i][c] || columns[c][j]
+                            || cells[i / 3 * 3 + j / 3][c]) {
                         return false;
                     }
-                    rows[i][num] = columns[j][num] = cells[i / 3 * 3 + j / 3][num] = true;
+                    rows[i][c] = columns[c][j] = cells[i / 3 * 3 + j / 3][c] = true;
                 }
             }
             return true;
