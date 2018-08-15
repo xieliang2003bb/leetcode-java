@@ -1,6 +1,7 @@
 package letter_combinations_of_a_phone_number;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LetterCombinationsofaPhoneNumber {
 
@@ -18,26 +19,23 @@ public class LetterCombinationsofaPhoneNumber {
                 "wxyz" // 9
         };
 
-        private void search(ArrayList<String> ans, String digits, int index,
-                char[] letters) {
-            if (index == digits.length()) {
-                ans.add(new String(letters));
-                return;
-            }
+        public List<String> letterCombinations(String digits) {
+            List<String> res = new ArrayList<>();
+            if (digits.isEmpty()) return res;
+            letterCombinationsDFS(digits, dict, 0, "", res);
+            return res;
+        }
 
-            String options = dict[digits.charAt(index) - '0'];
-            for (int i = 0; i < options.length(); i++) {
-                letters[index] = options.charAt(i);
-                search(ans, digits, index + 1, letters);
+        private void letterCombinationsDFS(String digits, String[] dict, int level, String out, List<String> res) {
+            if (level == digits.length()) res.add(out);
+            else {
+                String str = dict[digits.charAt(level) - '0'];
+                for (int i = 0; i < str.length(); ++i) {
+                    letterCombinationsDFS(digits, dict, level + 1, out + str.charAt(i), res);
+                }
             }
         }
 
-        public ArrayList<String> letterCombinations(String digits) {
-            ArrayList<String> ans = new ArrayList<String>();
-            char[] letters = new char[digits.length()];
-            search(ans, digits, 0, letters);
-            return ans;
-        }
     }
 
     public static class UnitTest {
