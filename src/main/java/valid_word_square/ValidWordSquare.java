@@ -24,7 +24,7 @@ public class ValidWordSquare {
 
             return true;
         }
-        
+
     }
 
     public class UnitTest {
