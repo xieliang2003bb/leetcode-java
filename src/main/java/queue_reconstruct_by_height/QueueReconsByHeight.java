@@ -23,7 +23,7 @@ public class QueueReconsByHeight {
                 int[] p = peopleL.get(i);
                 if (p[1] != i) {
                     peopleL.remove(i);
-                    peopleL.add(p[1], p);
+                    peopleL.add(p[1], p);  // (idx, element)
                 }
             }
 
