@@ -22,6 +22,5 @@ public class NthDigit {
 
     public class UnitTest {
 
-
     }
 }
