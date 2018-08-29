@@ -15,6 +15,10 @@ public class CountOfRangeSum {
             return countAndMergeSort(sums, 0, sums.length, lower, upper);
         }
 
+        // j是第一个满足 sums[j] - sums[i] > upper 的下标
+        // k是第一个满足 sums[k] - sums[i] >= lower 的下标
+        // cache用于缓存merge sort结果
+        
         private int countAndMergeSort(long[] sums, int start, int end, int lower, int upper) {
             if (end - start <= 1) return 0;
             int mid = start + (end - start) / 2;
