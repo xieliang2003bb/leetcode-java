@@ -2,10 +2,7 @@ package sliding_window_median;
 
 import com.google.common.primitives.Doubles;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by lxie on 9/10/18.
@@ -68,7 +65,7 @@ public class SlidingWindowMedian {
         SlidingWindowMedian s = new SlidingWindowMedian();
         int[] a = {1,3,-1,-3,5,3,6,7};
         double[] res = s.medianSlidingWindow(a, 3);
-        System.out.println(res);
+        System.out.println("result is " + Arrays.toString(res));
 
     }
 
