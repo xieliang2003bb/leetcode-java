@@ -35,6 +35,7 @@ public class Sum3NonOverlappingSubarrays {
             }
             for (int i = k; i <= n - 2 * k; ++i) {
                 int l = left[i - 1], r = right[i + k];
+                // total = left_largest + current + right_largest
                 int total = (sums[i + k] - sums[i]) + (sums[l + k] - sums[l]) + (sums[r + k] - sums[r]);
                 if (mx < total) {
                     mx = total;
