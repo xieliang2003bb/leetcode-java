@@ -26,7 +26,7 @@ public class BinaryTreeLongestConsecutiveSequenceII {
             }
             return Math.max(left, right);
         }
-        
+
     }
 
     public class UnitTest {
