@@ -44,6 +44,6 @@ public class LonelyPixelII {
     }
 
     public class UnitTest {
-        
+
     }
 }
