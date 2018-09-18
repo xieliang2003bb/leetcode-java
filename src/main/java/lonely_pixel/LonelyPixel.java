@@ -31,7 +31,7 @@ public class LonelyPixel {
             }
             return res;
         }
-        
+
     }
 
     public class UnitTest {
