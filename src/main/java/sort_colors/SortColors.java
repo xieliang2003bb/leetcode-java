@@ -4,19 +4,23 @@ public class SortColors {
 
     public class Solution {
         public void sortColors(int[] A) {
-            int zero = -1;
-            int one = -1;
-            for (int i = 0; i < A.length; i++) {
+            int red = 0, blue = A.length - 1;
+            for (int i = 0; i <= blue; ++i) {
                 if (A[i] == 0) {
-                    A[i] = A[++zero];
-                    A[zero] = 0;
-                    one = Math.max(zero, one);
-                }
-                if (A[i] == 1) {
-                    A[i] = A[++one];
-                    A[one] = 1;
+                    int tmp = A[red];
+                    A[red] = A[i];
+                    A[i] = tmp;
+                    red++;
+                    //swap(A[i], A[red++]);
+                } else if (A[i] == 2) {
+                    int tmp = A[i];
+                    A[i] = A[blue];
+                    A[blue] = tmp;
+                    i--; blue--;
+                    //swap(A[i--], A[blue--]);
                 }
             }
+
         }
     }
 
