@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 public class Anagrams {
 
     public class Solution {
-        public ArrayList<String> anagrams(String[] strs) {
+        public List<List<String>> groupAnagrams(String[] strs) {
             Map<String, List<String>> dict = new HashMap<String, List<String>>();
             for (String str : strs) {
                 char[] cs = str.toCharArray();
@@ -23,11 +23,9 @@ public class Anagrams {
                 }
                 l.add(str);
             }
-            ArrayList<String> ans = new ArrayList<String>();
+            List<List<String>> ans = new ArrayList<>();
             for (Entry<String, List<String>> e : dict.entrySet()) {
-                if (e.getValue().size() > 1) {
-                    ans.addAll(e.getValue());
-                }
+                    ans.add(e.getValue());
             }
             return ans;
         }
