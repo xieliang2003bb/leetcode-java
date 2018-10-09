@@ -36,7 +36,7 @@ public class SearchAutoComplete {
             @Override
             public int compare(Pair<String, Integer> o1, Pair<String, Integer> o2) {
                 if (o1.getValue() != o2.getValue())
-                    return o1.getValue() - o1.getValue();
+                    return o2.getValue() - o1.getValue(); // max heap
                 else
                     return o1.getKey().compareTo(o2.getKey());
             }});

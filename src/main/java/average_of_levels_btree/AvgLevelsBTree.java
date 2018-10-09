@@ -31,7 +31,7 @@ public class AvgLevelsBTree {
             }
             return res;
         }
-        
+
     }
 
     public class UnitTest {
