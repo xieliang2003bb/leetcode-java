@@ -55,35 +55,35 @@ public class MyConcurrentHashTableUnitTest {
     }
 
     @Test
-    public void testMultiPutLowBuckets(){  // test multi-thread puts on single bucket
+    public void testMultiPutLowBuckets(){  // test multi-thread puts on low buckets
         table = new MyConcurrentHashTable<Integer, String>(200);
         long latency = multiputTest();
         assert(latency > 40000);
     }
 
     @Test
-    public void testMultiPutDefaultBuckets(){  // test multi-thread puts on multi buckets
+    public void testMultiPutDefaultBuckets(){  // test multi-thread puts on default buckets
         table = new MyConcurrentHashTable<Integer, String>(1000);
         long latency = multiputTest();
         assert(latency < 20000);
     }
 
     @Test
-    public void testMultiPutMoreBuckets(){  // test multi-thread puts on multi buckets
+    public void testMultiPutMoreBuckets(){  // test multi-thread puts on more buckets
         table = new MyConcurrentHashTable<Integer, String>(5000);
         long latency = multiputTest();
         assert(latency < 15000);
     }
 
     @Test
-    public void testMultiPutMaxBuckets(){  // test multi-thread puts on multi buckets
+    public void testMultiPutMaxBuckets(){  // test multi-thread puts on max buckets
         table = new MyConcurrentHashTable<Integer, String>(10000);
         long latency = multiputTest();
         assert(latency < 13000);
     }
 
     @Test
-    public void testMultiPutAndGetDefaultBuckets(){  // test multi-thread puts on multi buckets
+    public void testMultiPutAndGetDefaultBuckets(){  // test multi-thread puts and gets on default buckets
         table = new MyConcurrentHashTable<Integer, String>(10000);
         long latency = multiputAndGetTest();
         assert(latency < 30000);
