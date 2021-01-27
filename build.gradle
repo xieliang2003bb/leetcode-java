@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
   compile 'junit:junit:4.10'
+  compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
 }
 
 sourceSets.test.java.srcDir 'src/main/java'
