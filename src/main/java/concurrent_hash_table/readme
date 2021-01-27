@@ -1,0 +1,52 @@
+Implement a concurrent hash table
+
+We need to implement a concurrent hash table. This implementation should not use any of the existing HashMap library in Java. It should implement a hash table from scratch (given the interface).
+
+We need to implement the following methods for the hash table
+
+Get, Put, Remove
+
+And, we need to design our approach to achieve the maximum concurrency and scalability while doing these operations. This means that, we should not block other operations if they are not operating on the same entry. This also means that, we should save system resource (e.g., locks, semaphores) in order to be scalable.
+
+
+Output: A JAVA class implementation of the concurrent hash table. An analysis on why you choose the approach and how do you optimize the concurrency and achieve scalability. 
+
+
+Tests: write a test class to verify the implementation. The test should include:
+
+1. single thread hash-table operations
+2. multiple threads hash-table operations - on different record(s)
+3. multiple threads hash-table operations - on same record(s)
+4. different settings/configs for the hash table
+5. exception handlings
+
+
+Interface to implement
+/*
+ *   Concurrent hash table implementation.
+ *   Expected to be used in a multi-threading env
+ */
+public interface ConcurrentHashTable<K,V>
+{
+  /*
+   * Concurrency setting, i.e., number of locks. 
+   */
+  public void init(int numLocks);
+ 
+  /*
+   * Get the value by key
+   * 
+   */
+  public V get(K key);
+ 
+  /*
+   * Put the item to the hash table
+   */
+  public void put(K key, V value);
+ 
+  /*
+   * Remove an item from the hash table
+   */
+  public void remove(K key);
+}
+
