@@ -35,7 +35,7 @@ public class LongestSubstringKRepeatingChars {
 
     public static void main(String[] args) {
         Solution sol = new Solution();
-        System.out.println("result = " + sol.longestSubstring("a", 1));
+        System.out.println("result = " + sol.longestSubstring("ababbc", 2));
     }
 
 }
