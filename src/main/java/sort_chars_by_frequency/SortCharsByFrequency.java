@@ -1,6 +1,6 @@
 package sort_chars_by_frequency;
 
-import javafx.util.Pair;
+import common.Pair;
 
 import java.util.*;
 
@@ -13,10 +13,10 @@ public class SortCharsByFrequency {
 
     public String frequencySort(String s) {
         String res = "";
-        PriorityQueue<Pair<Integer, Character>> q = new PriorityQueue<>(100,
-                new Comparator<Pair<Integer, Character>>() {
+        PriorityQueue<Map.Entry<Integer, Character>> q = new PriorityQueue<>(100,
+                new Comparator<Map.Entry<Integer, Character>>() {
             @Override
-            public int compare(Pair<Integer, Character> o1, Pair<Integer, Character> o2) {
+            public int compare(Map.Entry<Integer, Character> o1, Map.Entry<Integer, Character> o2) {
                 return o2.getKey() - o1.getKey();
             }
         });
@@ -29,9 +29,9 @@ public class SortCharsByFrequency {
                 m.put(c, 1);
         }
         for (Map.Entry<Character, Integer> a : m.entrySet())
-            q.add(new Pair(a.getValue(), a.getKey()));
+            q.add(Pair.of(a.getValue(), a.getKey()));
         while (!q.isEmpty()) {
-            Pair<Integer, Character> t = q.peek(); q.poll();
+            Map.Entry<Integer, Character> t = q.peek(); q.poll();
             for (int i=0; i<t.getKey(); ++i) res += t.getValue();
         }
         return res;

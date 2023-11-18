@@ -1,8 +1,9 @@
 package min_unique_word_abbrev;
 
-import javafx.util.Pair;
+import common.Pair;
 
 import java.util.Comparator;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 /**
@@ -14,10 +15,10 @@ public class MinUniqueWordAbbrev {
         public String minAbbreviation(String target, String[] dictionary) {
             if (dictionary.length == 0) return Integer.toString((int)target.length());
             //priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>>> q;
-            PriorityQueue<Pair<Integer, String>> q;
+            PriorityQueue<Map.Entry<Integer, String>> q;
             q = generate(target);
             while (!q.isEmpty()) {
-                Pair<Integer, String> t = q.peek(); q.poll();
+                Map.Entry<Integer, String> t = q.peek(); q.poll();
                 boolean no_conflict = true;
                 for (String word : dictionary) {
                     if (valid(word, t.getValue())) {
@@ -31,10 +32,10 @@ public class MinUniqueWordAbbrev {
         }
 
 
-        private PriorityQueue<Pair<Integer, String>> generate(String target) {
-            PriorityQueue<Pair<Integer, String>> res = new PriorityQueue<>(50, new Comparator<Pair<Integer, String>>() {
+        private PriorityQueue<Map.Entry<Integer, String>> generate(String target) {
+            PriorityQueue<Map.Entry<Integer, String>> res = new PriorityQueue<>(50, new Comparator<Map.Entry<Integer, String>>() {
                 @Override
-                public int compare(Pair<Integer, String> o1, Pair<Integer, String> o2) {
+                public int compare(Map.Entry<Integer, String> o1, Map.Entry<Integer, String> o2) {
                     return o1.getKey() - o2.getKey();
                 }
             });
@@ -57,7 +58,7 @@ public class MinUniqueWordAbbrev {
                     out += Integer.toString(cnt);
                     ++size;
                 }
-                res.add(new Pair<Integer, String>(size, out));
+                res.add(Pair.of(size, out));
             }
             return res;
         }

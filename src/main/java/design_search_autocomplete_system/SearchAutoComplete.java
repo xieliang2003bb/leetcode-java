@@ -1,6 +1,6 @@
 package design_search_autocomplete_system;
 
-import javafx.util.Pair;
+import common.Pair;
 
 import java.util.*;
 
@@ -32,9 +32,9 @@ public class SearchAutoComplete {
             return null;
         }
         data += c;
-        PriorityQueue<Pair<String, Integer>> q = new PriorityQueue<>(50, new Comparator<Pair<String, Integer>>() {
+        PriorityQueue<Map.Entry<String, Integer>> q = new PriorityQueue<>(50, new Comparator<Map.Entry<String, Integer>>() {
             @Override
-            public int compare(Pair<String, Integer> o1, Pair<String, Integer> o2) {
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
                 if (o1.getValue() != o2.getValue())
                     return o2.getValue() - o1.getValue(); // max heap
                 else
@@ -50,7 +50,7 @@ public class SearchAutoComplete {
                 }
             }
             if (matched) {
-                q.add(new Pair<String, Integer>(f.getKey(), f.getValue()));
+                q.add(Pair.of(f.getKey(), f.getValue()));
                 if (q.size() > 3) q.poll();
             }
         }

@@ -1,6 +1,6 @@
 package LFU_cache;
 
-import javafx.util.Pair;
+import common.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class LFUCache {
 
     private int cap, minFreq;
-    private Map<Integer, Pair<Integer, Integer>> m = new HashMap<>();  // key - value, freq
+    private Map<Integer, Map.Entry<Integer, Integer>> m = new HashMap<>();  // key - value, freq
     private Map<Integer, List<Integer>> freq = new HashMap<>(); // freq - keys
     private Map<Integer, Integer> iter = new HashMap<>(); // key - key_pos in freq
 
@@ -24,7 +24,7 @@ public class LFUCache {
     public int get(int key) {
         if (!m.containsKey(key)) return -1;
         freq.get(m.get(key).getValue()).remove((int)iter.get(key));
-        m.put(key, new Pair(m.get(key).getKey(), m.get(key).getValue()+1));
+        m.put(key, Pair.of(m.get(key).getKey(), m.get(key).getValue()+1));
         if (!freq.containsKey(m.get(key).getValue()))
             freq.put(m.get(key).getValue(), new ArrayList<>());
         freq.get(m.get(key).getValue()).add(key);
@@ -36,7 +36,7 @@ public class LFUCache {
     public void put(int key, int value) {
         if (cap <= 0) return;
         if (get(key) != -1) {
-            m.put(key, new Pair(value, 1));
+            m.put(key, Pair.of(value, 1));
             return;
         }
         if (m.size() >= cap) {
@@ -44,7 +44,7 @@ public class LFUCache {
             iter.remove(freq.get(minFreq).get(0));
             freq.get(minFreq).remove(0);
         }
-        m.put(key, new Pair(value, 1));
+        m.put(key, Pair.of(value, 1));
         if (!freq.containsKey(1)) freq.put(1, new ArrayList<>());
         freq.get(1).add(key);
         iter.put(key, freq.get(1).size() - 1);

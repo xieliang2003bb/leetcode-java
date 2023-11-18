@@ -1,6 +1,6 @@
 package sentence_similarity;
 
-import javafx.util.Pair;
+import common.Pair;
 
 import java.util.*;
 
@@ -9,11 +9,11 @@ import java.util.*;
  */
 public class SentenceSimilarity {
 
-    public boolean areSentencesSimilar(String[] words1, String[] words2, List<Pair<String, String>> pairs) {
+    public boolean areSentencesSimilar(String[] words1, String[] words2, List<Map.Entry<String, String>> pairs) {
         if (words1.length != words2.length) return false;
         Map<String, Set<String>> m = new HashMap<>();
 
-        for (Pair<String, String> pair : pairs) {
+        for (Map.Entry<String, String> pair : pairs) {
             //m[pair.first].insert(pair.second);
             if (!m.containsKey(pair.getKey())) {
                 m.put(pair.getKey(), new HashSet<>(Arrays.asList(pair.getValue())));
@@ -34,10 +34,10 @@ public class SentenceSimilarity {
         SentenceSimilarity ss = new SentenceSimilarity();
         String[] words1 = {"great", "acting", "skills"};
         String[] words2 = {"fine", "drama", "talent"};
-        List<Pair<String, String>> pairs = new ArrayList<>();
-        pairs.add(new Pair<>("great", "fine"));
-        pairs.add(new Pair<>("acting", "drama"));
-        pairs.add(new Pair<>("skills", "talent"));
+        List<Map.Entry<String, String>> pairs = new ArrayList<>();
+        pairs.add(Pair.of("great", "fine"));
+        pairs.add(Pair.of("acting", "drama"));
+        pairs.add(Pair.of("skills", "talent"));
 
         System.out.println(ss.areSentencesSimilar(words1, words2, pairs));
 
