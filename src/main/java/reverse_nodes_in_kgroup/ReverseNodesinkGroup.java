@@ -4,47 +4,47 @@ import common.ListNode;
 
 public class ReverseNodesinkGroup {
 
-    public class Solution {
-        private ListNode reverseGroup(ListNode start, ListNode end) {
-            ListNode prefix = start.next;
-            ListNode p = prefix.next;
-            while (p != end) {
-                ListNode temp = p.next;
-                p.next = prefix;
-                prefix = p;
-                p = temp;
+    public static class Solution {
+        public ListNode reverseKGroup(ListNode head, int k) {
+            ListNode cur = head;
+            for (int i = 0; i < k; ++i) {
+                if (cur == null) return head;
+                cur = cur.next;
             }
-            ListNode temp = start.next;
-            start.next = prefix;
-            temp.next = end;
-            return temp;
+            ListNode new_head = reverse(head, cur);
+            head.next = reverseKGroup(cur, k);
+            return new_head;
         }
 
-        public ListNode reverseKGroup(ListNode head, int k) {
-            if (k == 0) {
-                return head;
+        public ListNode reverse(ListNode head, ListNode tail) {
+            ListNode pre = tail;
+            while (head != tail) {
+                ListNode t = head.next;
+                head.next = pre;
+                pre = head;
+                head = t;
             }
-            ListNode dummy = new ListNode(0);
-            dummy.next = head;
-            ListNode start = dummy;
-            ListNode end = start.next;
-            int count = 0;
-            while (end != null) {
-                if (count == k) {
-                    start = reverseGroup(start, end);
-                    count = 0;
-                }
-                count++;
-                end = end.next;
-            }
-            if (count == k) {
-                reverseGroup(start, end);
-            }
-            return dummy.next;
+            return pre;
         }
     }
 
-    public static class UnitTest {
+    public static void main(String[] args) {
+        Solution test = new Solution();
+        ListNode node1 = new ListNode(1);
+        ListNode node2 = new ListNode(2);
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(4);
+        ListNode node5 = new ListNode(5);
 
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+
+        ListNode head = test.reverseKGroup(node1, 3);
+        while (head != null) {
+            System.out.println(head.val + " ");
+            head = head.next;
+        }
     }
 }
